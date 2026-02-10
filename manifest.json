@@ -1,0 +1,22 @@
+
+{
+  "name": "Lumina Genesis",
+  "short_name": "Lumina",
+  "description": "The AI-Powered Spiritual Sanctuary.",
+  "start_url": "/app",
+  "display": "standalone",
+  "background_color": "#0f1018",
+  "theme_color": "#0f1018",
+  "icons": [
+    {
+      "src": "https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&q=80&w=192",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&q=80&w=512",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

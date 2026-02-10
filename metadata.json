@@ -1,0 +1,10 @@
+{
+  "name": "Lumina: Genesis",
+  "version": "0.1.0",
+  "build": "golden-state",
+  "description": "The formalized checkpoint for the Lumina Genesis visual interface. Includes Marketing Landing Page, Community Hub, and SEO suite.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
