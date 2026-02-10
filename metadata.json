@@ -1,10 +1,19 @@
 {
-  "name": "Lumina: Genesis",
-  "version": "0.1.0",
-  "build": "golden-state",
-  "description": "The formalized checkpoint for the Lumina Genesis visual interface. Includes Marketing Landing Page, Community Hub, and SEO suite.",
+  "name": "Lumina",
+  "short_name": "Lumina",
+  "version": "0.2.5",
+  "edition": "Genesis ➔ Exodus",
+  "build": "migration-exodus-active",
+  "description": "The world's first AI-integrated spiritual sanctuary.",
+  "theme_color": "#0f1018",
+  "background_color": "#0f1018",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
   "requestFramePermissions": [
     "camera",
-    "microphone"
+    "microphone",
+    "geolocation"
   ]
 }

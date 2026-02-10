@@ -1,22 +1,26 @@
-
 export const APP_CONFIG = {
   name: 'Lumina',
-  edition: 'Genesis',
-  version: '0.1.0',
-  buildTag: 'checkpoint-alpha-golden',
+  edition: 'Genesis ➔ Exodus',
+  version: '0.2.5',
+  buildTag: 'migration-exodus-active',
+  env: 'production-ready',
   theme: {
     primary: 'indigo',
-    accent: 'yellow',
+    accent: 'amber',
     background: '#0f1018'
   },
-  social: {
-    twitter: 'https://twitter.com/lumina',
-    instagram: 'https://instagram.com/lumina'
+  marketing: {
+    tagline: 'The world\'s first AI-integrated spiritual sanctuary.',
+    supportEmail: 'blessings@lumina.genesis',
+    socialLinks: {
+      twitter: 'https://twitter.com/lumina_genesis',
+      instagram: 'https://instagram.com/lumina_genesis'
+    }
   }
 };
 
 export const VISUAL_CONSTANTS = {
   glassEffect: 'rgba(255, 255, 255, 0.05)',
-  blurStrength: '12px',
-  animationSpeed: '0.3s'
+  blurStrength: '16px',
+  animationSpeed: '0.8s'
 };

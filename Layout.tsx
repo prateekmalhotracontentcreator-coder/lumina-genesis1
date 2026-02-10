@@ -1,17 +1,19 @@
-
 import React from 'react';
-import { AppView } from './types';
+import { AppView, UserProfile } from './types';
+import { APP_CONFIG } from './constants';
 
 interface LayoutProps {
   children: React.ReactNode;
   activeView: AppView;
   setActiveView: (view: AppView) => void;
+  user?: UserProfile | null;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeView, setActiveView }) => {
+const Layout: React.FC<LayoutProps> = ({ children, activeView, setActiveView, user }) => {
   const navItems = [
     { id: AppView.DASHBOARD, label: 'Home', icon: '🏠' },
     { id: AppView.BIBLE, label: 'Bible', icon: '📖' },
+    { id: AppView.COMMUNITY_HUB, label: 'Remnant', icon: '🌍' },
     { id: AppView.PREMIUM_GUIDE, label: 'Spiritual', icon: '✨' },
     { id: AppView.PRAYERS, label: 'Journal', icon: '🙏' },
     { id: AppView.AI_PASTOR, label: 'Chat', icon: '💬' },
@@ -20,55 +22,62 @@ const Layout: React.FC<LayoutProps> = ({ children, activeView, setActiveView }) 
   if (activeView === AppView.LANDING) return <>{children}</>;
 
   return (
-    <div className="flex flex-col min-h-screen max-w-lg mx-auto relative px-4 pb-24 pt-6 text-white isolate">
-      {/* EXPLICIT BACKGROUND LAYERS */}
+    <div className="flex flex-col min-h-screen relative text-white isolate overflow-x-hidden">
+      {/* EXPLICIT BACKGROUND LAYERS - Full Screen Coverage */}
       <div className="fixed inset-0 bg-[#0f1018] -z-20" />
-      <div className="fixed inset-0 bg-gradient-to-br from-[#0f1018] to-[#1a1c2c] opacity-90 -z-10" />
+      <div className="fixed inset-0 bg-gradient-to-br from-[#0f1018] via-[#1a1c2c] to-[#0f1018] opacity-90 -z-10" />
+      
+      {/* Ambient Lighting Orbs for Desktop */}
+      <div className="fixed top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none -z-10 hidden md:block" />
+      <div className="fixed bottom-[-10%] right-[-5%] w-[30vw] h-[30vw] bg-amber-500/5 rounded-full blur-[100px] pointer-events-none -z-10 hidden md:block" />
 
-      {/* Header */}
-      <header className="flex justify-between items-center mb-8 px-2 z-10 relative">
+      {/* Header Container - Responsive Width */}
+      <header className="w-full max-w-7xl mx-auto flex justify-between items-center py-6 px-6 md:px-10 z-10 relative">
         <div className="flex flex-col">
-          <h1 className="text-2xl font-bold serif tracking-tight text-white/90">Lumina</h1>
-          <span className="text-[8px] font-sans font-bold uppercase tracking-widest text-amber-500 opacity-80 -mt-1">Genesis Golden State</span>
+          <h1 className="text-2xl md:text-3xl font-bold serif tracking-tight text-white/90">Lumina</h1>
+          <span className="text-[8px] md:text-[10px] font-sans font-bold uppercase tracking-widest text-amber-500 opacity-80 -mt-1">{APP_CONFIG.edition}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={() => setActiveView(AppView.PREMIUM_GUIDE)}
-            className="text-[10px] font-bold px-3 py-1 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/30 rounded-full text-yellow-400 hover:bg-yellow-500/10 transition-colors shadow-lg"
-          >
-            PREMIUM
-          </button>
+        
+        <div className="flex items-center gap-4">
+          <div className="text-right hidden sm:block border-r border-white/10 pr-4 mr-1">
+            <p className="text-[8px] font-black text-amber-500/60 uppercase tracking-tighter">Devotion Points</p>
+            <p className="text-sm font-bold leading-none">{user?.points || 0}</p>
+          </div>
           <button 
             onClick={() => setActiveView(AppView.SETTINGS)}
-            className="p-2 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 transition-colors active:scale-90"
+            className="w-10 h-10 md:w-12 md:h-12 rounded-full glass border border-white/10 flex items-center justify-center overflow-hidden hover:border-amber-500/50 transition-all shadow-xl group"
           >
-            ⚙️
+            {user?.photoURL ? (
+              <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+            ) : (
+              <span className="text-xl">👤</span>
+            )}
           </button>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 w-full overflow-y-auto no-scrollbar z-10 relative">
+      {/* Main Content Container - Responsive Column Logic */}
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-10 pb-32 pt-2 z-10 relative overflow-y-auto no-scrollbar">
         {children}
       </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md glass border border-white/20 p-2 z-50 shadow-2xl bg-black/60 backdrop-blur-2xl">
-        <div className="flex justify-around items-center">
+      {/* Bottom Navigation - The Sacred Ribbon (Adaptive Island) */}
+      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-xl glass border border-white/10 p-2 z-50 shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-black/70 backdrop-blur-3xl ring-1 ring-white/5 md:rounded-3xl">
+        <div className="flex justify-around items-center gap-1">
           {navItems.map((item) => {
             const isActive = activeView === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => setActiveView(item.id)}
-                className={`flex flex-col items-center p-2 rounded-xl transition-all duration-300 relative ${
-                  isActive ? 'bg-white/10 scale-110 text-white' : 'opacity-40 hover:opacity-100'
+                className={`flex flex-col items-center p-2 flex-1 rounded-2xl transition-all duration-300 relative group ${
+                  isActive ? 'bg-white/10 scale-105 text-white' : 'opacity-30 hover:opacity-100 hover:bg-white/5'
                 }`}
               >
-                <span className="text-xl">{item.icon}</span>
-                <span className="text-[10px] mt-1 font-bold uppercase tracking-tighter">{item.label}</span>
+                <span className="text-xl md:text-2xl mb-1 group-hover:scale-110 transition-transform">{item.icon}</span>
+                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tighter text-center whitespace-nowrap leading-none">{item.label}</span>
                 {isActive && (
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-amber-500 rounded-full shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
+                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-amber-500 rounded-full shadow-[0_0_12px_rgba(251,191,36,0.9)]" />
                 )}
               </button>
             );

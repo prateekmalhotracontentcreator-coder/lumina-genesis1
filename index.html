@@ -3,72 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Lumina: Genesis - The world's first AI-integrated spiritual sanctuary. Scriptural simulations, private prayer circles, and 24/7 pastoral guidance.">
-    <meta name="keywords" content="Spiritual App, AI Pastor, Christian Meditation, Bible AI, Prayer Chain, Lumina Genesis">
-    <meta name="author" content="Lumina Genesis Team">
+    <meta name="description" content="Lumina: Genesis 1 - The world's first AI-integrated spiritual sanctuary.">
     <meta name="theme-color" content="#0f1018">
-    
-    <!-- Open Graph / Social -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://lumina.genesis/">
-    <meta property="og:title" content="Lumina: Genesis | Your Divine Light Sanctuary">
-    <meta property="og:description" content="Experience scriptural simulations and personalized AI guidance in our digital sanctuary.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&q=80&w=1200">
-
-    <link rel="manifest" href="manifest.json">
-    <title>Lumina: Genesis | Divine Light Sanctuary</title>
-    
+    <title>Lumina: Genesis 1 | Divine Light Sanctuary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,600;1,400&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --bg-deep: #0f1018;
-            --accent-amber: #fbbf24;
-            --accent-indigo: #6366f1;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-deep);
-            color: white;
-            min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-        }
-
+        :root { --bg-deep: #0f1018; --accent-amber: #fbbf24; --accent-indigo: #6366f1; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-deep); color: white; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 28px; }
         .serif { font-family: 'Playfair Display', serif; }
         .font-serif { font-family: 'Crimson Pro', serif; }
-
-        .text-glow-amber {
-            text-shadow: 0 0 15px rgba(251, 191, 36, 0.4), 0 0 30px rgba(251, 191, 36, 0.1);
-        }
-
-        .animate-enter { 
-            animation: enterFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        }
-
-        @keyframes enterFade {
-            0% { opacity: 0; transform: translateY(10px) scale(0.98); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
+        .animate-enter { animation: enterFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes enterFade { 0% { opacity: 0; transform: translateY(10px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        ::selection {
-            background: rgba(99, 102, 241, 0.3);
-            color: var(--accent-amber);
-        }
     </style>
-
     <script type="importmap">
 {
   "imports": {

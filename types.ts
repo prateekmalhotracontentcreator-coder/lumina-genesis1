@@ -22,10 +22,14 @@ export enum AppView {
 }
 
 export interface UserProfile {
+  uid?: string;
   name: string;
+  email?: string;
+  photoURL?: string;
   familyDetails: string;
   isPremium: boolean;
   points: number;
+  lastLogin?: number;
 }
 
 export interface CircleMember {

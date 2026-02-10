@@ -1,8 +1,6 @@
-
 import { GoogleGenAI, Modality, Type } from "@google/genai";
 import { BibleParagraph, SituationResult } from "./types";
 
-// Fixed: Initializing GoogleGenAI strictly with process.env.API_KEY as per instructions
 const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const getSituationMotivation = async (situation: string): Promise<SituationResult> => {
@@ -33,17 +31,6 @@ export const getSituationMotivation = async (situation: string): Promise<Situati
   } catch (e) {
     throw new Error("Failed to receive divine inspiration. Please try again.");
   }
-};
-
-export const generateSocialPost = async (content: string, platform: 'Facebook' | 'X'): Promise<string> => {
-  const ai = getAI();
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
-    contents: `Draft a high-engagement spiritual testimony for ${platform} based on this experience: "${content}". 
-    - For Facebook: Use warm, storytelling language with 3 emojis.
-    - For X: Keep it under 280 characters, punchy, with hashtags.`,
-  });
-  return response.text || "";
 };
 
 export const generateConfession = async (category: string, name: string): Promise<string> => {
@@ -174,12 +161,7 @@ export const generateWallpaper = async (verse: string): Promise<string> => {
   return `data:image/png;base64,${response.candidates[0].content.parts.find(p => p.inlineData)?.inlineData?.data || ''}`;
 };
 
-export interface ChaplainResponse {
-  text: string;
-  sources?: { title: string; uri: string }[];
-}
-
-export const getAIChaplainAdviceExtended = async (q: string, imageBase64?: string): Promise<ChaplainResponse> => {
+export const getAIChaplainAdviceExtended = async (q: string, imageBase64?: string): Promise<{ text: string; sources?: { title: string; uri: string }[] }> => {
   const ai = getAI();
   const parts: any[] = [{ text: q || "Share your wisdom with me." }];
 
