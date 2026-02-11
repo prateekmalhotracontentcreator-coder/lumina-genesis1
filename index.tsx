@@ -1,5 +1,8 @@
+
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 import App from './App';
 
 interface Props {
@@ -58,6 +61,8 @@ root.render(
   <React.StrictMode>
     <ErrorBoundary>
       <App />
+      <SpeedInsights />
+      <Analytics />
     </ErrorBoundary>
   </React.StrictMode>
 );
