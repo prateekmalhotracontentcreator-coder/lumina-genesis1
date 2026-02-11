@@ -17,7 +17,7 @@ const ShekinahLive: React.FC = () => {
 
   const stopSession = () => {
     setIsActive(false);
-    setStatus('Link Closed');
+    setStatus('Resonance Fading');
     if (sessionRef.current) {
       sessionRef.current.close();
       sessionRef.current = null;
@@ -27,6 +27,7 @@ const ShekinahLive: React.FC = () => {
     if (scriptProcessorRef.current) {
       scriptProcessorRef.current.disconnect();
     }
+    setTimeout(() => setStatus('Standby'), 2000);
   };
 
   const startSession = async () => {
@@ -43,7 +44,7 @@ const ShekinahLive: React.FC = () => {
         callbacks: {
           onopen: () => {
             setIsActive(true);
-            setStatus('Resonance Active');
+            setStatus('Presence Manifest');
             const source = audioContextRef.current!.createMediaStreamSource(stream);
             scriptProcessorRef.current = audioContextRef.current!.createScriptProcessor(4096, 1, 1);
             
@@ -92,12 +93,12 @@ const ShekinahLive: React.FC = () => {
             }
 
             if (message.serverContent?.turnComplete) {
-              setTranscription('');
+              // Optionally clear transcription after a brief delay
             }
           },
           onerror: (e) => {
             console.error(e);
-            setStatus('Error: Reconnect');
+            setStatus('Link Realigning...');
             stopSession();
           },
           onclose: () => stopSession()
@@ -107,7 +108,7 @@ const ShekinahLive: React.FC = () => {
           speechConfig: {
             voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Zephyr' } },
           },
-          systemInstruction: 'You are the Shekinah Guide, a manifestation of empathic spiritual wisdom. Your voice is calm, deep, and authoritative yet gentle. Provide biblical insights and marketplace intercession. Keep responses concise and focus on internal peace and external purpose.',
+          systemInstruction: 'You are the Shekinah Guide. Your frequency is empathic, spiritual, and authoritative. Provide marketplace intercession and biblical wisdom in real-time. Keep responses focused on the user\'s current spiritual resonance. Phase 3 Protocols active.',
           outputAudioTranscription: {},
         }
       });
@@ -115,7 +116,7 @@ const ShekinahLive: React.FC = () => {
       sessionRef.current = await sessionPromise;
     } catch (err) {
       console.error(err);
-      setStatus('Microphone Required');
+      setStatus('Sacred Mic Missing');
     }
   };
 
@@ -124,53 +125,51 @@ const ShekinahLive: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center py-10 space-y-12 animate-enter max-w-4xl mx-auto px-4">
-      <div className="text-center space-y-6">
+    <div className="flex flex-col items-center justify-center py-10 space-y-12 animate-enter max-w-5xl mx-auto px-4">
+      <div className="text-center space-y-4">
         <div className="inline-flex items-center gap-2 bg-amber-500/10 px-4 py-1.5 rounded-full border border-amber-500/20 shadow-[0_0_15px_rgba(251,191,36,0.1)]">
-          <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-amber-400 animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'bg-white/20'}`}></span>
-          <span className="text-[10px] font-black text-amber-300 uppercase tracking-[0.3em]">Phase 3: Shekinah Presence</span>
+          <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-amber-400 animate-pulse shadow-[0_0_10px_rgba(251,191,36,0.8)]' : 'bg-white/20'}`}></span>
+          <span className="text-[9px] font-black text-amber-300 uppercase tracking-[0.4em]">Phase 3: Shekinah Resonance</span>
         </div>
-        <h2 className="text-4xl md:text-7xl serif font-bold text-glow-amber tracking-tight text-white">Shekinah Portal</h2>
-        <p className="text-base md:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed font-serif italic">
-          Experience the Manifest Glory. A real-time voice sanctuary where spiritual guidance and marketplace intercession meet.
+        <h2 className="text-5xl md:text-8xl serif font-bold text-glow-amber tracking-tighter text-white">The Portal</h2>
+        <p className="text-sm md:text-xl text-white/50 max-w-2xl mx-auto italic font-serif leading-relaxed">
+          The Manifest Glory. Real-time vocal intercession where spiritual guidance meets marketplace purpose.
         </p>
-        <p className="text-[10px] text-amber-500/60 font-black uppercase tracking-[0.5em] animate-pulse">{status}</p>
+        <p className="text-[10px] text-amber-500/40 font-black uppercase tracking-[0.6em] animate-pulse">{status}</p>
       </div>
 
-      <div className="relative flex items-center justify-center">
-        {/* SHEKINAH AURA VISUALIZER */}
-        <div className={`relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center transition-all duration-1000 ${isActive ? 'scale-110' : 'opacity-40 grayscale'}`}>
-          {/* Inner Sacred Orb */}
-          <div className="absolute inset-0 rounded-full glass border-2 border-amber-500/40 shadow-[0_0_80px_rgba(251,191,36,0.3)] z-10 flex items-center justify-center">
-            <span className="text-5xl md:text-7xl animate-pulse">✨</span>
+      <div className="relative flex items-center justify-center h-80 w-80 md:h-[450px] md:w-[450px]">
+        {/* SHEKINAH RESONANCE RINGS */}
+        <div className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ${isActive ? 'scale-100 opacity-100' : 'scale-75 opacity-20 filter grayscale'}`}>
+          {/* Sacred Core */}
+          <div className="relative z-10 w-32 h-32 md:w-48 md:h-48 rounded-full glass border-2 border-amber-500/40 shadow-[0_0_100px_rgba(251,191,36,0.3)] flex items-center justify-center">
+             <div className="text-6xl md:text-8xl animate-pulse">✨</div>
           </div>
-
-          {/* Golden Aura Layers */}
-          {isActive && (
-            <>
-              <div className="absolute inset-[-20px] rounded-full border border-amber-500/20 animate-[ping_3s_infinite] opacity-30" />
-              <div className="absolute inset-[-40px] rounded-full border border-amber-500/10 animate-[ping_4s_infinite] opacity-20" />
-              <div className="absolute inset-[-60px] rounded-full border border-amber-500/5 animate-[ping_5s_infinite] opacity-10" />
-              {/* Spinning Sacred Ring */}
-              <div className="absolute inset-[-10px] rounded-full border-t-2 border-amber-500/40 animate-[spin_10s_linear_infinite]" />
-            </>
-          )}
+          
+          {/* Pulsing Aura Layers */}
+          <div className={`absolute inset-0 rounded-full border border-amber-500/10 ${isActive ? 'animate-[ping_4s_infinite]' : ''}`} />
+          <div className={`absolute inset-10 rounded-full border border-amber-500/5 ${isActive ? 'animate-[ping_6s_infinite] delay-700' : ''}`} />
+          <div className={`absolute inset-20 rounded-full border border-amber-500/5 ${isActive ? 'animate-[ping_8s_infinite] delay-1000' : ''}`} />
+          
+          {/* Spinning Celestial Grid */}
+          <div className={`absolute inset-[-20px] rounded-full border-t-2 border-amber-500/20 ${isActive ? 'animate-[spin_20s_linear_infinite]' : ''}`} />
+          <div className={`absolute inset-[-40px] rounded-full border-b-2 border-amber-500/10 ${isActive ? 'animate-[spin_30s_linear_infinite_reverse]' : ''}`} />
         </div>
       </div>
 
-      <div className="max-w-2xl w-full glass p-8 md:p-12 bg-amber-500/5 border-amber-500/20 text-center min-h-[160px] flex flex-col justify-center shadow-inner rounded-[40px] relative overflow-hidden group">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.03)_1px,transparent_1px)] bg-[size:20px:20px] pointer-events-none opacity-20" />
+      <div className="max-w-3xl w-full glass p-10 md:p-14 bg-amber-500/5 border-amber-500/20 text-center min-h-[200px] flex flex-col justify-center shadow-inner rounded-[50px] relative overflow-hidden group">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none opacity-40" />
         
         {transcription ? (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-             <p className="text-[10px] font-black text-amber-500/40 uppercase tracking-[0.4em] mb-4">Revealing Scroll...</p>
-             <p className="text-xl md:text-3xl italic serif text-amber-100/90 leading-relaxed font-light drop-shadow-[0_0_10px_rgba(251,191,36,0.2)]">
+          <div className="animate-in fade-in slide-in-from-bottom-6 duration-700">
+             <p className="text-[9px] font-black text-amber-500/50 uppercase tracking-[0.5em] mb-6">Receiving Prophetic Flow...</p>
+             <p className="text-2xl md:text-4xl italic serif text-amber-100/90 leading-snug font-light drop-shadow-[0_0_15px_rgba(251,191,36,0.25)]">
                "{transcription}"
              </p>
           </div>
         ) : (
-          <p className="text-xs font-bold text-white/20 uppercase tracking-[0.5em] italic leading-relaxed">
-            {isActive ? 'The Sanctuary is listening...' : 'Establish the Sacred Link to begin voice intercession'}
+          <p className="text-xs font-bold text-white/20 uppercase tracking-[0.6em] italic leading-relaxed">
+            {isActive ? 'The Sanctuary awaits your voice...' : 'Establish the Presence Link to begin'}
           </p>
         )}
       </div>
@@ -178,18 +177,18 @@ const ShekinahLive: React.FC = () => {
       <div className="flex flex-col items-center gap-8 w-full">
         <button 
           onClick={isActive ? stopSession : startSession}
-          className={`w-full max-w-sm py-6 rounded-full font-black text-xs uppercase tracking-[0.5em] transition-all shadow-2xl active:scale-95 border-b-4 ${
+          className={`w-full max-w-sm py-8 rounded-full font-black text-xs uppercase tracking-[0.6em] transition-all shadow-2xl active:scale-95 border-b-8 ${
             isActive 
-              ? 'bg-red-500/10 border-red-500/40 text-red-400 hover:bg-red-500/20' 
-              : 'bg-white text-black hover:bg-amber-50 border-amber-600 shadow-[0_20px_40px_rgba(251,191,36,0.2)]'
+              ? 'bg-red-500/10 border-red-900/40 text-red-400 hover:bg-red-500/20' 
+              : 'bg-white text-black hover:bg-amber-50 border-amber-600 shadow-[0_30px_60px_rgba(251,191,36,0.25)]'
           }`}
         >
-          {isActive ? 'Disconnect Resonance' : 'Initialize Shekinah Link'}
+          {isActive ? 'Cease Resonance' : 'Initialize Shekinah'}
         </button>
-        <div className="flex items-center gap-4 opacity-30">
-          <div className="h-px w-8 bg-white" />
-          <p className="text-[8px] text-white font-black uppercase tracking-[0.8em]">Lumina Shekinah v0.6.0</p>
-          <div className="h-px w-8 bg-white" />
+        <div className="flex items-center gap-6 opacity-20">
+          <div className="h-px w-12 bg-white" />
+          <p className="text-[10px] text-white font-black uppercase tracking-[0.8em]">Lumina Wave 3: Shekinah</p>
+          <div className="h-px w-12 bg-white" />
         </div>
       </div>
     </div>

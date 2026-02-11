@@ -1,29 +1,38 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { HashRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Layout from './Layout';
-import Dashboard from './Dashboard';
-import BibleReader from './BibleReader';
-import PrayerWall from './PrayerWall';
-import ShekinahLive from './components/ShekinahLive';
-import AIChaplain from './AIChaplain';
-import ManifestationPlan from './ManifestationPlan';
-import GloryScroll from './components/GloryScroll';
-import PremiumGuide from './PremiumGuide';
-import BibleTrivia from './BibleTrivia';
-import ChristianCalendar from './ChristianCalendar';
-import SleepMeditations from './SleepMeditations';
-import OccasionalPrayers from './OccasionalPrayers';
-import MediaVault from './MediaVault';
-import CommunityHub from './CommunityHub';
-import EStore from './EStore';
-import LandingPage from './LandingPage';
-import BibleStructure from './BibleStructure';
-import BibleSituationSearch from './BibleSituationSearch';
-import Confessions from './Confessions';
-import BereanTool from './BereanTool';
 import { AppView, UserProfile } from './types';
 import { auth, googleProvider, signInWithPopup, onAuthStateChanged, signOut, syncUserProfile } from './services/firebase';
+
+// Lazy Loaded Components for Code Splitting
+const Dashboard = lazy(() => import('./Dashboard'));
+const BibleReader = lazy(() => import('./BibleReader'));
+const PrayerWall = lazy(() => import('./PrayerWall'));
+const ShekinahLive = lazy(() => import('./components/ShekinahLive'));
+const AIChaplain = lazy(() => import('./AIChaplain'));
+const ManifestationPlan = lazy(() => import('./ManifestationPlan'));
+const GloryScroll = lazy(() => import('./components/GloryScroll'));
+const PremiumGuide = lazy(() => import('./PremiumGuide'));
+const BibleTrivia = lazy(() => import('./BibleTrivia'));
+const ChristianCalendar = lazy(() => import('./ChristianCalendar'));
+const SleepMeditations = lazy(() => import('./SleepMeditations'));
+const OccasionalPrayers = lazy(() => import('./OccasionalPrayers'));
+const MediaVault = lazy(() => import('./MediaVault'));
+const CommunityHub = lazy(() => import('./CommunityHub'));
+const EStore = lazy(() => import('./EStore'));
+const BibleStructure = lazy(() => import('./BibleStructure'));
+const BibleSituationSearch = lazy(() => import('./BibleSituationSearch'));
+const Confessions = lazy(() => import('./Confessions'));
+const BereanTool = lazy(() => import('./BereanTool'));
+
+// Sacred Loading State for Suspense Fallbacks
+const ResonanceLoading = () => (
+  <div className="flex flex-col items-center justify-center p-20 animate-pulse">
+    <div className="w-12 h-12 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mb-4" />
+    <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.5em]">Fetching Scroll...</p>
+  </div>
+);
 
 const AppContent: React.FC = () => {
   const navigate = useNavigate();
@@ -147,17 +156,25 @@ const AppContent: React.FC = () => {
   return (
     <Layout activeView={activeView} setActiveView={setActiveView} user={user}>
       <div key={activeView} className="h-full w-full">
-        {renderContent()}
+        <Suspense fallback={<ResonanceLoading />}>
+          {renderContent()}
+        </Suspense>
       </div>
     </Layout>
   );
 };
 
+const LandingPageLazy = lazy(() => import('./LandingPage'));
+
 const App: React.FC = () => {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={
+          <Suspense fallback={<div className="bg-[#0f1018] min-h-screen" />}>
+            <LandingPageLazy />
+          </Suspense>
+        } />
         <Route path="/app" element={<AppContent />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

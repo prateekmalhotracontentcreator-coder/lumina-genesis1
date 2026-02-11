@@ -26,5 +26,6 @@ export const APP_CONFIG = {
 export const VISUAL_CONSTANTS = {
   glassEffect: 'rgba(255, 255, 255, 0.05)',
   blurStrength: '24px',
-  animationSpeed: '0.8s'
+  animationSpeed: '0.8s',
+  shekinahGlow: '0 0 40px rgba(251, 191, 36, 0.3)'
 };

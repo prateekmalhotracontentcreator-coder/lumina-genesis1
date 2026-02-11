@@ -1,5 +1,5 @@
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { ErrorInfo, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
@@ -18,13 +18,15 @@ interface State {
  * ErrorBoundary: Protects the sacred space of the Lumina Sanctuary.
  * Aligned to Shekinah Protocol (v0.5.1) - Stability Edition.
  */
-// Fix: Use explicitly imported Component to ensure props are correctly typed for the class component
-class ErrorBoundary extends Component<Props, State> {
-  // Use class fields for cleaner state initialization
-  public state: State = { 
-    hasError: false, 
-    error: null 
-  };
+// Fix: Explicitly using React.Component to ensure 'props' and 'state' are correctly inherited and recognized by the TypeScript compiler
+class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { 
+      hasError: false, 
+      error: null 
+    };
+  }
 
   public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
@@ -35,6 +37,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
+    // Fix: Accessing 'this.state' which is correctly recognized due to explicit inheritance from React.Component
     if (this.state.hasError) {
       const error = this.state.error;
       return (
@@ -61,6 +64,7 @@ class ErrorBoundary extends Component<Props, State> {
       );
     }
 
+    // Fix: Accessing 'this.props.children' which is correctly inherited from React.Component
     return this.props.children;
   }
 }
