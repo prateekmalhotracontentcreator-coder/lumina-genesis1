@@ -26,7 +26,6 @@ const AppContent: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Environment Detection for Exodus Phase
   const [isStandalone, setIsStandalone] = useState(false);
   const [isProduction, setIsProduction] = useState(false);
   
@@ -48,7 +47,6 @@ const AppContent: React.FC = () => {
   });
 
   useEffect(() => {
-    // Detect Deployment Environment
     if (window.matchMedia('(display-mode: standalone)').matches || (window as any).navigator.standalone) {
       setIsStandalone(true);
     }
@@ -107,9 +105,9 @@ const AppContent: React.FC = () => {
       case AppView.PREMIUM_GUIDE: return <PremiumGuide isPremium={profile.isPremium} onSubscribe={() => setActiveView(AppView.ESTORE)} />;
       case AppView.SETTINGS: return (
         <div className="space-y-6 pb-20 max-w-2xl mx-auto animate-enter">
-          <div className="glass p-8 flex items-center gap-6 border-indigo-500/30 bg-indigo-900/10">
-            <div className="w-20 h-20 rounded-full bg-indigo-500/20 border-2 border-indigo-500/50 flex items-center justify-center overflow-hidden shadow-2xl">
-               {user?.photoURL ? <img src={user.photoURL} alt="Avatar" className="w-full h-full object-cover" /> : <span className="text-3xl">👤</span>}
+          <div className="glass p-8 flex items-center gap-6 border-indigo-500/30 bg-indigo-900/10 shadow-2xl">
+            <div className="w-20 h-20 rounded-full bg-indigo-500/20 border-2 border-indigo-500/50 flex items-center justify-center overflow-hidden shadow-2xl group">
+               {user?.photoURL ? <img src={user.photoURL} alt="Avatar" className="w-full h-full object-cover group-hover:scale-110 transition-transform" /> : <span className="text-3xl">👤</span>}
             </div>
             <div>
               <h3 className="text-xl font-bold text-white leading-tight">{user ? user.name : 'Guest Soul'}</h3>
@@ -131,19 +129,41 @@ const AppContent: React.FC = () => {
              <BereanTool />
           </div>
 
-          <div className="glass p-6 space-y-4 border-white/5">
-             <h4 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">Exodus Diagnostics</h4>
-             <div className="flex justify-between text-[10px] font-bold">
-                <span className="opacity-40 uppercase tracking-tighter">Interface Mode</span>
-                <span className="text-indigo-400 uppercase tracking-widest">{isStandalone ? 'PWA Native' : 'Responsive Web'}</span>
+          <div className="glass p-8 space-y-8 border-amber-500/20 bg-amber-500/5 shadow-2xl">
+             <div className="flex justify-between items-center">
+                <h4 className="text-[10px] font-black text-amber-500 uppercase tracking-[0.4em]">Exodus Performance Sync</h4>
+                <div className="px-2 py-0.5 bg-green-500/20 rounded text-[8px] font-black text-green-400 uppercase tracking-tighter">Verified GREAT</div>
              </div>
-             <div className="flex justify-between text-[10px] font-bold">
-                <span className="opacity-40 uppercase tracking-tighter">Deployment State</span>
-                <span className={`uppercase tracking-widest ${isProduction ? 'text-green-400' : 'text-amber-400'}`}>{isProduction ? 'Live Production' : 'Staging/Local'}</span>
+
+             {/* Sanctuary Resonance Gauge */}
+             <div className="space-y-3">
+                <div className="flex justify-between items-end">
+                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Sanctuary Resonance</span>
+                  <span className="text-2xl font-black text-amber-400">{APP_CONFIG.sanctuaryHealth}%</span>
+                </div>
+                <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+                  <div 
+                    className="h-full bg-gradient-to-r from-amber-500 to-green-500 rounded-full shadow-[0_0_15px_rgba(251,191,36,0.5)] transition-all duration-1000"
+                    style={{ width: `${APP_CONFIG.sanctuaryHealth}%` }}
+                  ></div>
+                </div>
+                <p className="text-[8px] text-white/20 italic leading-tight uppercase tracking-widest">DivineSync established at {APP_CONFIG.sanctuaryHealth}% efficiency on production-edge nodes.</p>
              </div>
-             <div className="flex justify-between text-[10px] font-bold">
-                <span className="opacity-40 uppercase tracking-tighter">Active Build</span>
-                <span className="opacity-80 font-mono">v{APP_CONFIG.version}-{APP_CONFIG.buildTag}</span>
+
+             <div className="grid grid-cols-2 gap-4">
+                <div className="glass p-4 bg-white/5 border-white/10">
+                   <p className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">Environment</p>
+                   <p className="text-[10px] font-bold text-indigo-400 uppercase">{isProduction ? 'Live Sanctuary' : 'Staging Light'}</p>
+                </div>
+                <div className="glass p-4 bg-white/5 border-white/10">
+                   <p className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">PWA Native Status</p>
+                   <p className="text-[10px] font-bold text-amber-400 uppercase">{isStandalone ? 'Sacred Native' : 'Responsive Web'}</p>
+                </div>
+             </div>
+
+             <div className="flex justify-between text-[10px] font-bold opacity-30 border-t border-white/5 pt-4">
+                <span className="uppercase tracking-tighter">Build Hash</span>
+                <span className="font-mono">exodus-{APP_CONFIG.version}-{APP_CONFIG.buildTag}</span>
              </div>
           </div>
 

@@ -1,9 +1,10 @@
 export const APP_CONFIG = {
   name: 'Lumina',
   edition: 'Genesis ➔ Exodus',
-  version: '0.2.5',
-  buildTag: 'migration-exodus-active',
+  version: '0.2.6',
+  buildTag: 'migration-exodus-optimized',
   env: 'production-ready',
+  sanctuaryHealth: 99,
   theme: {
     primary: 'indigo',
     accent: 'amber',
