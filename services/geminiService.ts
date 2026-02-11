@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Modality, Type } from "@google/genai";
-import { BibleParagraph, SituationResult, GloryInsight, DevotionalContent } from "../types";
+import { BibleParagraph, SituationResult, GloryInsight, DevotionalContent, KingdomStrategy } from "../types";
 
 // Helper to handle retries and specific API errors (429/500s)
 const executeWithGrace = async <T>(fn: () => Promise<T>, retries = 3, delay = 1000): Promise<T> => {
@@ -25,6 +25,69 @@ const executeWithGrace = async <T>(fn: () => Promise<T>, retries = 3, delay = 10
 };
 
 const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+export const getKingdomStrategy = async (careerGoal: string, userName: string): Promise<KingdomStrategy> => {
+  return executeWithGrace(async () => {
+    const ai = getAI();
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-preview',
+      contents: `User ${userName} is a professional/entrepreneur pursuing: "${careerGoal}". 
+      Generate a 'Kingdom Marketplace Strategy' based on Joseph/Daniel principles.
+      Return JSON with:
+      1. mandate: A high-level vision statement.
+      2. pillars: Array of 3 objects {title, action} representing the strategic implementation.
+      3. propheticDeclaration: A bold scriptural confession for the marketplace.
+      4. blueprintPrompt: A detailed prompt for an image generator to create a "Sacred Architectural Blueprint" of this vision.`,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            mandate: { type: Type.STRING },
+            pillars: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  title: { type: Type.STRING },
+                  action: { type: Type.STRING }
+                }
+              }
+            },
+            propheticDeclaration: { type: Type.STRING },
+            blueprintPrompt: { type: Type.STRING }
+          },
+          required: ["mandate", "pillars", "propheticDeclaration", "blueprintPrompt"]
+        }
+      }
+    });
+    return JSON.parse(response.text || '{}');
+  });
+};
+
+export const generateBlueprintImage = async (prompt: string): Promise<string> => {
+  return executeWithGrace(async () => {
+    const ai = getAI();
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-image-preview',
+      contents: {
+        parts: [
+          { text: `A high-end architectural blueprint in ethereal white ink on a deep navy parchment, cinematic lighting, sacred geometry, marketplace success concept, 4K resolution: ${prompt}` }
+        ]
+      },
+      config: {
+        imageConfig: {
+          aspectRatio: "16:9",
+          imageSize: "1K"
+        }
+      }
+    });
+    
+    const imagePart = response.candidates[0].content.parts.find(p => p.inlineData);
+    if (!imagePart) throw new Error("Divine Image failed to manifest.");
+    return `data:image/png;base64,${imagePart.inlineData.data}`;
+  });
+};
 
 export const getGloryScroll = async (userName: string): Promise<GloryInsight[]> => {
   return executeWithGrace(async () => {

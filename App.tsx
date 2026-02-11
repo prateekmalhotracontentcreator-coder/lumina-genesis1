@@ -25,6 +25,7 @@ const BibleStructure = lazy(() => import('./BibleStructure'));
 const BibleSituationSearch = lazy(() => import('./BibleSituationSearch'));
 const Confessions = lazy(() => import('./Confessions'));
 const BereanTool = lazy(() => import('./BereanTool'));
+const KingdomVisionBoard = lazy(() => import('./components/KingdomVisionBoard'));
 
 // Sacred Loading State for Suspense Fallbacks
 const ResonanceLoading = () => (
@@ -99,7 +100,7 @@ const AppContent: React.FC = () => {
   }
 
   const renderContent = () => {
-    const profile = user || { name: 'Guest Soul', points: 0, isPremium: false, familyDetails: '' };
+    const profile = user || { name: 'Guest Soul', points: 0, isPremium: false, familyDetails: '', manifestationProgress: [] };
     
     switch (activeView) {
       case AppView.DASHBOARD: return <Dashboard setActiveView={setActiveView} profile={profile} />;
@@ -119,6 +120,7 @@ const AppContent: React.FC = () => {
       case AppView.ESTORE: return <EStore profile={profile} onSubscribe={() => setUser({...profile, isPremium: true})} />;
       case AppView.BIBLE_STRUCTURE: return <BibleStructure />;
       case AppView.SITUATION_SEARCH: return <BibleSituationSearch />;
+      case AppView.KINGDOM_VISION: return <KingdomVisionBoard user={profile} />;
       case AppView.PREMIUM_GUIDE: return <PremiumGuide isPremium={profile.isPremium} onSubscribe={() => setActiveView(AppView.ESTORE)} />;
       case AppView.SETTINGS: return (
         <div className="space-y-6 pb-20 max-w-2xl mx-auto animate-enter">

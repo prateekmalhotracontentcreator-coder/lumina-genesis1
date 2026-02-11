@@ -17,10 +17,11 @@ interface State {
  * ErrorBoundary: Protects the sacred space of the Lumina Sanctuary.
  * Aligned to Shekinah Protocol (v0.5.1) - Stability Edition.
  */
-// Fix: Use React.Component explicitly to ensure inherited members like 'state' and 'props' are correctly recognized by the TypeScript compiler
+// Fix: Use React.Component explicitly to ensure state and props are correctly inherited from the React base class
 class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    // Fix: Correctly initialize state in the constructor
     this.state = { 
       hasError: false, 
       error: null 
@@ -36,7 +37,7 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 
   public render() {
-    // Fix: Accessing 'this.state' which is correctly inherited from React.Component<Props, State>
+    // Fix: Accessing 'this.state' which is correctly inherited from React.Component
     if (this.state.hasError) {
       const error = this.state.error;
       return (
@@ -63,7 +64,7 @@ class ErrorBoundary extends React.Component<Props, State> {
       );
     }
 
-    // Fix: Accessing 'this.props.children' which is correctly inherited from React.Component<Props, State>
+    // Fix: Accessing 'this.props.children' which is correctly inherited from React.Component
     return this.props.children;
   }
 }

@@ -19,7 +19,8 @@ export enum AppView {
   SETTINGS = 'SETTINGS',
   BIBLE_STRUCTURE = 'BIBLE_STRUCTURE',
   SITUATION_SEARCH = 'SITUATION_SEARCH',
-  CONFESSIONS = 'CONFESSIONS'
+  CONFESSIONS = 'CONFESSIONS',
+  KINGDOM_VISION = 'KINGDOM_VISION'
 }
 
 export interface UserProfile {
@@ -64,6 +65,13 @@ export interface GloryInsight {
   title: string;
   content: string;
   verse: string;
+}
+
+export interface KingdomStrategy {
+  mandate: string;
+  pillars: { title: string; action: string }[];
+  propheticDeclaration: string;
+  blueprintPrompt: string;
 }
 
 export interface PrayerCard {

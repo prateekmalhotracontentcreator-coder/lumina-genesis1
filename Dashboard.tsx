@@ -14,6 +14,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
   const [showDevotional, setShowDevotional] = useState(false);
   const [loading, setLoading] = useState(true);
   const [manifestationProgress, setManifestationProgress] = useState<number[]>([]);
+  const [globalPulse, setGlobalPulse] = useState(14204);
   
   const dailyVerse = {
     ref: "Joshua 1:8",
@@ -35,6 +36,12 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         }
       });
     }
+
+    // Simulate global intercession pulse fluctuations
+    const interval = setInterval(() => {
+      setGlobalPulse(prev => prev + (Math.random() > 0.5 ? 1 : -1));
+    }, 3000);
+    return () => clearInterval(interval);
   }, [profile.uid]);
 
   const days = Array.from({ length: 21 }, (_, i) => i + 1);
@@ -45,12 +52,15 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
       <header className="px-2 flex justify-between items-end">
         <div className="relative">
           <h2 className="text-3xl md:text-5xl serif italic text-white/90 leading-tight tracking-tight">Peace be with you, {profile.name.split(' ')[0]}</h2>
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex flex-wrap items-center gap-2 mt-2">
             <div className="flex items-center gap-1 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full">
               <span className="w-1 h-1 bg-indigo-400 rounded-full animate-pulse"></span>
               <span className="text-[8px] font-black text-indigo-400 uppercase tracking-tighter">LATTICE SYNCHRONIZATION ACTIVE</span>
             </div>
-            <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">{APP_CONFIG.codename}</span>
+            <div className="flex items-center gap-1 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">
+              <span className="w-1 h-1 bg-blue-400 rounded-full animate-ping"></span>
+              <span className="text-[8px] font-black text-blue-400 uppercase tracking-tighter">GLOBAL PULSE: {globalPulse.toLocaleString()}</span>
+            </div>
           </div>
         </div>
         <button 
@@ -62,7 +72,54 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         </button>
       </header>
 
-      {/* 2. DAILY VERSE MEDITATION - INDIGO THEME */}
+      {/* 2. MARKETPLACE MANDATE HERO (PHASE 4.0) - BLUE THEME */}
+      <section 
+        onClick={() => setActiveView(AppView.KINGDOM_VISION)}
+        className="relative overflow-hidden glass p-8 md:p-14 border-t-2 border-blue-500/40 bg-gradient-to-br from-blue-950/30 to-black/80 rounded-[40px] shadow-3xl group cursor-pointer hover:bg-blue-500/5 transition-all duration-700"
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+           <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-blue-500/10 flex items-center justify-center text-4xl md:text-6xl border border-blue-500/20 shadow-[0_0_80px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-transform duration-1000">
+             🏗️
+           </div>
+           <div className="text-center md:text-left space-y-3">
+              <div className="inline-flex items-center gap-2 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
+                <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest">Phase 4.0: Marketplace Mandate</span>
+              </div>
+              <h3 className="text-2xl md:text-5xl serif italic font-bold text-white tracking-tighter leading-none">Your Kingdom Blueprint</h3>
+              <p className="text-xs md:text-lg text-white/50 max-w-xl italic font-serif leading-relaxed">
+                Analyze your professional vision through the lens of Joseph's mandate and Daniel's excellence.
+              </p>
+              <div className="pt-2">
+                <span className="px-6 py-2 md:px-8 md:py-3 bg-blue-600 text-white rounded-full font-black text-[9px] md:text-[10px] uppercase tracking-[0.4em] shadow-xl group-hover:bg-blue-500 transition-all">Scribe Your Vision →</span>
+              </div>
+           </div>
+        </div>
+      </section>
+
+      {/* 3. CORE SPIRITUAL TOOLS GRID (RESTORED) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-1">
+        {[
+          { id: AppView.CONFESSIONS, label: 'Voice of Faith', icon: '⚔️', color: 'amber' },
+          { id: AppView.SITUATION_SEARCH, label: 'Divine Insights', icon: '🎬', color: 'blue' },
+          { id: AppView.BIBLE_STRUCTURE, label: 'Scripture Map', icon: '🏗️', color: 'indigo' },
+          { id: AppView.MEDIA_VAULT, label: 'Media Vault', icon: '🎨', color: 'purple' },
+        ].map((tool) => (
+          <button 
+            key={tool.id}
+            onClick={() => setActiveView(tool.id)}
+            className={`glass p-6 flex flex-col items-center justify-center gap-3 text-center transition-all group shadow-lg border-white/5 hover:border-${tool.color}-500/30 hover:bg-${tool.color}-500/5`}
+          >
+            <div className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform group-hover:text-glow-${tool.color}`}>
+              {tool.icon}
+            </div>
+            <h4 className="text-[10px] font-black text-white/80 uppercase tracking-widest leading-tight">{tool.label}</h4>
+          </button>
+        ))}
+      </div>
+
+      {/* 4. DAILY VERSE MEDITATION - INDIGO THEME */}
       <section className={`relative glass overflow-hidden border-t-2 border-indigo-500/30 shadow-2xl bg-gradient-to-br from-indigo-950/20 to-black/60 rounded-[40px] transition-all duration-700 ${showDevotional ? 'pb-16' : ''}`}>
         <div className="p-10 md:p-14 text-center space-y-8 relative z-10">
           <p className="text-[9px] font-black text-indigo-500/60 uppercase tracking-[0.6em]">The Living Word</p>
@@ -129,7 +186,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         </div>
       </section>
 
-      {/* 3. PROPHETIC FLOW HERO - AMBER THEME */}
+      {/* 5. PROPHETIC FLOW HERO - AMBER THEME */}
       <section 
         onClick={() => setActiveView(AppView.GLORY_SCROLL)}
         className="relative overflow-hidden glass p-10 md:p-14 border-t-2 border-amber-500/30 bg-gradient-to-br from-amber-950/20 to-black/60 rounded-[40px] shadow-2xl group cursor-pointer hover:bg-amber-500/5 transition-all"
@@ -155,26 +212,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         </div>
       </section>
 
-      {/* 4. CORE TOOLS */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-1">
-        {[
-          { id: AppView.CONFESSIONS, label: 'Word of Faith', icon: '⚔️' },
-          { id: AppView.SITUATION_SEARCH, label: 'Divine Insights', icon: '🎬' },
-          { id: AppView.BIBLE_STRUCTURE, label: 'Scripture Map', icon: '🏗️' },
-          { id: AppView.MEDIA_VAULT, label: 'Media Vault', icon: '🎨' },
-        ].map((tool) => (
-          <button 
-            key={tool.id}
-            onClick={() => setActiveView(tool.id)}
-            className="glass p-6 flex flex-col items-center justify-center gap-3 text-center hover:bg-white/5 border-white/5 hover:border-indigo-500/20 transition-all group shadow-lg"
-          >
-            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">{tool.icon}</div>
-            <h4 className="text-[10px] font-black text-white/80 uppercase tracking-widest leading-tight">{tool.label}</h4>
-          </button>
-        ))}
-      </div>
-
-      {/* 5. THE MANIFESTATION RESONANCE MATRIX */}
+      {/* 6. THE MANIFESTATION RESONANCE MATRIX */}
       <section 
         onClick={() => setActiveView(AppView.MANIFEST)}
         className="glass p-8 md:p-10 border-green-500/20 bg-green-950/10 shadow-2xl rounded-[40px] relative overflow-hidden group cursor-pointer hover:border-green-500/40 transition-all"
@@ -206,17 +244,24 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         </div>
       </section>
 
-      {/* 6. PRIMARY ACCESS PORTALS */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      {/* 7. REMNANT COMMUNITY & PRIMARY PORTALS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section 
+          onClick={() => setActiveView(AppView.COMMUNITY_HUB)}
+          className="glass p-8 md:p-10 border-indigo-500/20 bg-indigo-950/10 shadow-xl rounded-[40px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-white/5 transition-all"
+        >
+          <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-4xl mb-4 group-hover:scale-110 transition-transform">🌍</div>
+          <h3 className="text-xl serif font-bold text-white">Remnant Community</h3>
+          <p className="text-xs text-white/40 mt-2 font-serif italic">Join the synchronized global prayer chain.</p>
+        </section>
+
         <section 
           onClick={() => setActiveView(AppView.SHEKINAH_PORTAL)}
-          className="md:col-span-12 glass p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 group cursor-pointer border-indigo-500/20 hover:border-indigo-500/50 transition-all bg-indigo-950/10"
+          className="glass p-8 md:p-10 border-amber-500/20 bg-amber-950/10 shadow-xl rounded-[40px] flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-white/5 transition-all"
         >
-          <div className="w-24 h-24 rounded-full bg-white text-black flex items-center justify-center text-4xl shadow-[0_0_60px_rgba(255,255,255,0.2)] group-hover:scale-105 transition-transform">✨</div>
-          <div className="text-center md:text-left space-y-3">
-            <h3 className="text-3xl serif font-bold text-white tracking-tight">Shekinah Portal</h3>
-            <p className="text-lg text-white/50 max-w-2xl italic font-serif leading-relaxed">Enter the realm of voice intercession. Speak your heart, and the Sanctuary Guide will answer.</p>
-          </div>
+          <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-4xl mb-4 group-hover:scale-110 transition-transform">✨</div>
+          <h3 className="text-xl serif font-bold text-white">Shekinah Portal</h3>
+          <p className="text-xs text-white/40 mt-2 font-serif italic">Speak your heart to the Sanctuary Guide.</p>
         </section>
       </div>
     </div>
