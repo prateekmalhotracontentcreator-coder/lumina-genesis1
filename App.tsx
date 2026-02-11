@@ -1,25 +1,27 @@
+
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
-import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
-import BibleReader from './components/BibleReader';
-import PrayerWall from './components/PrayerWall';
+import Layout from './Layout';
+import Dashboard from './Dashboard';
+import BibleReader from './BibleReader';
+import PrayerWall from './PrayerWall';
 import ShekinahLive from './components/ShekinahLive';
-import AIChaplain from './components/AIChaplain';
-import ManifestationPlan from './components/ManifestationPlan';
-import PremiumGuide from './components/PremiumGuide';
-import BibleTrivia from './components/BibleTrivia';
-import ChristianCalendar from './components/ChristianCalendar';
-import SleepMeditations from './components/SleepMeditations';
-import OccasionalPrayers from './components/OccasionalPrayers';
-import MediaVault from './components/MediaVault';
-import CommunityHub from './components/CommunityHub';
-import EStore from './components/EStore';
-import LandingPage from './components/LandingPage';
-import BibleStructure from './components/BibleStructure';
-import BibleSituationSearch from './components/BibleSituationSearch';
-import Confessions from './components/Confessions';
-import BereanTool from './components/BereanTool';
+import AIChaplain from './AIChaplain';
+import ManifestationPlan from './ManifestationPlan';
+import GloryScroll from './components/GloryScroll';
+import PremiumGuide from './PremiumGuide';
+import BibleTrivia from './BibleTrivia';
+import ChristianCalendar from './ChristianCalendar';
+import SleepMeditations from './SleepMeditations';
+import OccasionalPrayers from './OccasionalPrayers';
+import MediaVault from './MediaVault';
+import CommunityHub from './CommunityHub';
+import EStore from './EStore';
+import LandingPage from './LandingPage';
+import BibleStructure from './BibleStructure';
+import BibleSituationSearch from './BibleSituationSearch';
+import Confessions from './Confessions';
+import BereanTool from './BereanTool';
 import { AppView, UserProfile } from './types';
 import { auth, googleProvider, signInWithPopup, onAuthStateChanged, signOut, syncUserProfile } from './services/firebase';
 
@@ -37,7 +39,6 @@ const AppContent: React.FC = () => {
     return AppView.DASHBOARD;
   });
 
-  // EXODUS POWER SOURCE: Real Auth Listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setLoading(true);
@@ -99,6 +100,7 @@ const AppContent: React.FC = () => {
       case AppView.AI_PASTOR: return <AIChaplain />;
       case AppView.CONFESSIONS: return <Confessions userName={profile.name} />;
       case AppView.MANIFEST: return <ManifestationPlan user={user} />;
+      case AppView.GLORY_SCROLL: return <GloryScroll profile={profile} />;
       case AppView.MEDITATION: return <SleepMeditations />;
       case AppView.TRIVIA: return <BibleTrivia />;
       case AppView.CALENDAR: return <ChristianCalendar />;

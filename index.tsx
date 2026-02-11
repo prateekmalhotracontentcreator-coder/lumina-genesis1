@@ -16,15 +16,15 @@ interface State {
 
 /**
  * ErrorBoundary: Protects the sacred space of the Lumina Sanctuary.
+ * Aligned to Shekinah Protocol (v0.5.1) - Stability Edition.
  */
+// Fix: Use explicitly imported Component to ensure props are correctly typed for the class component
 class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { 
-      hasError: false, 
-      error: null 
-    };
-  }
+  // Use class fields for cleaner state initialization
+  public state: State = { 
+    hasError: false, 
+    error: null 
+  };
 
   public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
@@ -36,21 +36,26 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
+      const error = this.state.error;
       return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#0f1018] text-white p-8 text-center font-serif relative overflow-hidden">
-          <div className="absolute inset-0 bg-amber-500/5 bg-[linear-gradient(rgba(251,191,36,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-          <div className="w-24 h-24 bg-amber-500/10 rounded-full flex items-center justify-center mb-8 shadow-[0_0_50px_rgba(251,191,36,0.2)] border border-amber-500/20">
-            <span className="text-4xl animate-pulse">✨</span>
+          {/* Exodus Green Grid background for the error state */}
+          <div className="absolute inset-0 bg-green-500/5 bg-[linear-gradient(rgba(34,197,94,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.05)_1px,transparent_1px)] bg-[size:45px_45px] pointer-events-none" />
+          
+          <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mb-8 shadow-[0_0_50px_rgba(34,197,94,0.2)] border border-green-500/20 relative z-10">
+            <span className="text-4xl animate-pulse text-glow-green">✦</span>
           </div>
-          <h1 className="text-3xl mb-4 font-bold tracking-tight text-amber-100">Sanctuary Restoration</h1>
-          <p className="opacity-50 mb-10 max-w-sm mx-auto text-sm font-sans leading-relaxed tracking-wide">
-            {this.state.error?.message || 'The manifest glory is being realigned. Please re-enter the light.'}
+          
+          <h1 className="text-3xl mb-4 font-bold tracking-tight text-green-100 relative z-10">Sanctuary Restoration</h1>
+          <p className="opacity-50 mb-10 max-w-sm mx-auto text-sm font-sans leading-relaxed tracking-wide relative z-10">
+            {error?.message || 'The Exodus resonance is being realigned. Please re-enter the light.'}
           </p>
+          
           <button 
             onClick={() => window.location.reload()}
-            className="px-12 py-5 bg-white text-black rounded-full font-sans text-[10px] font-black uppercase tracking-[0.4em] hover:bg-amber-50 transition-all shadow-2xl active:scale-95 border-b-4 border-amber-600"
+            className="px-12 py-5 bg-white text-black rounded-full font-sans text-[10px] font-black uppercase tracking-[0.4em] hover:bg-green-50 transition-all shadow-2xl active:scale-95 border-b-4 border-green-600 relative z-10"
           >
-            Reconnect to Lumina
+            Reconnect to Sanctuary
           </button>
         </div>
       );
@@ -61,7 +66,9 @@ class ErrorBoundary extends Component<Props, State> {
 }
 
 // Global detection for production environment
-const isProduction = window.location.hostname.endsWith('vercel.app') || window.location.hostname === 'lumina.genesis';
+const isProduction = window.location.hostname.endsWith('vercel.app') || 
+                    window.location.hostname === 'lumina.genesis' || 
+                    window.location.hostname === 'lumina.app';
 
 /**
  * Resilient PWA Service Worker Registration
@@ -76,9 +83,7 @@ if ('serviceWorker' in navigator) {
     if (!isSandboxed && window.location.protocol === 'https:') {
       navigator.serviceWorker.register('./sw.js')
         .then(reg => console.log('Shekinah Protocol: Sanctuary Link Active', reg.scope))
-        .catch(() => { /* suppressed */ });
-    } else {
-      console.log('Sanctuary Link Status: Sandbox Mode. (Shekinah PWA Sync Deferred)');
+        .catch(() => { /* suppressed in development */ });
     }
   });
 }

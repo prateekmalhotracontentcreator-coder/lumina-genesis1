@@ -1,3 +1,4 @@
+
 export enum AppView {
   LANDING = 'LANDING',
   DASHBOARD = 'DASHBOARD',
@@ -7,6 +8,7 @@ export enum AppView {
   AI_PASTOR = 'AI_PASTOR',
   COMMUNITY_HUB = 'COMMUNITY_HUB',
   MANIFEST = 'MANIFEST',
+  GLORY_SCROLL = 'GLORY_SCROLL',
   PREMIUM_GUIDE = 'PREMIUM_GUIDE',
   TRIVIA = 'TRIVIA',
   CALENDAR = 'CALENDAR',
@@ -32,6 +34,14 @@ export interface UserProfile {
   manifestationProgress?: number[];
 }
 
+export interface DevotionalContent {
+  opening: string;
+  pillars: { title: string; detail: string }[];
+  promise: string;
+  application: string[];
+  prayer: string;
+}
+
 export interface BibleVerse {
   ref: string;
   text: string;
@@ -47,6 +57,13 @@ export interface SituationResult {
   miracleStory: string;
   narrative: string;
   videoUri?: string;
+}
+
+export interface GloryInsight {
+  category: 'WORD' | 'WALK' | 'WEALTH';
+  title: string;
+  content: string;
+  verse: string;
 }
 
 export interface PrayerCard {

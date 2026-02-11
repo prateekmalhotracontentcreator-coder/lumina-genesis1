@@ -1,5 +1,6 @@
+
 import { GoogleGenAI, Modality, Type } from "@google/genai";
-import { BibleParagraph, SituationResult } from "../types";
+import { BibleParagraph, SituationResult, GloryInsight, DevotionalContent } from "../types";
 
 // Helper to handle retries and specific API errors (429/500s)
 const executeWithGrace = async <T>(fn: () => Promise<T>, retries = 3, delay = 1000): Promise<T> => {
@@ -24,6 +25,38 @@ const executeWithGrace = async <T>(fn: () => Promise<T>, retries = 3, delay = 10
 };
 
 const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+export const getGloryScroll = async (userName: string): Promise<GloryInsight[]> => {
+  return executeWithGrace(async () => {
+    const ai = getAI();
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-preview',
+      contents: `Generate a 'Daily Glory Scroll' for ${userName}. 
+      Return exactly 3 insights in a JSON array:
+      1. WORD: A deep scriptural revelation.
+      2. WALK: A practical daily challenge for spiritual growth.
+      3. WEALTH: A marketplace mandate regarding career, integrity, or financial stewardship.
+      Format as JSON array with keys: 'category', 'title', 'content', 'verse'.`,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              category: { type: Type.STRING, enum: ['WORD', 'WALK', 'WEALTH'] },
+              title: { type: Type.STRING },
+              content: { type: Type.STRING },
+              verse: { type: Type.STRING }
+            },
+            required: ["category", "title", "content", "verse"]
+          }
+        }
+      }
+    });
+    return JSON.parse(response.text || '[]');
+  });
+};
 
 export const getSituationMotivation = async (situation: string): Promise<SituationResult> => {
   return executeWithGrace(async () => {
@@ -229,13 +262,44 @@ export const getAIChaplainAdviceExtended = async (q: string, imageBase64?: strin
   });
 };
 
-export const getDailyVerseInsights = async (v: string): Promise<string> => {
+export const getDailyVerseInsights = async (v: string): Promise<DevotionalContent> => {
   return executeWithGrace(async () => {
     const ai = getAI();
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Devotional for: ${v}`,
+      contents: `Generate a highly structured, high-authority Christian devotional for this verse: "${v}". 
+      Return JSON with these exact keys:
+      1. opening: A concise 2-sentence context.
+      2. pillars: An array of 3 objects with {title, detail} (Speak It, Think It, Do It).
+      3. promise: A single powerful sentence on the result.
+      4. application: An array of 2 punchy action items.
+      5. prayer: A short 2-sentence sealing prayer.
+      Keep language sophisticated and evocative.`,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            opening: { type: Type.STRING },
+            pillars: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  title: { type: Type.STRING },
+                  detail: { type: Type.STRING }
+                },
+                required: ["title", "detail"]
+              }
+            },
+            promise: { type: Type.STRING },
+            application: { type: Type.ARRAY, items: { type: Type.STRING } },
+            prayer: { type: Type.STRING }
+          },
+          required: ["opening", "pillars", "promise", "application", "prayer"]
+        }
+      }
     });
-    return response.text || "";
+    return JSON.parse(response.text || '{}');
   });
 };
