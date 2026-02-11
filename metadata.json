@@ -1,9 +1,9 @@
 {
   "name": "Lumina",
   "short_name": "Lumina",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "edition": "Genesis ➔ Exodus",
-  "build": "migration-exodus-active",
+  "build": "migration-exodus-optimized",
   "description": "The world's first AI-integrated spiritual sanctuary.",
   "theme_color": "#0f1018",
   "background_color": "#0f1018",

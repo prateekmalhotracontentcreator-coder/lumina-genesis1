@@ -35,6 +35,7 @@ const AppContent: React.FC = () => {
   });
 
   const [activeView, setActiveView] = useState<AppView>(() => {
+    // If we land on the /app route, default to Dashboard
     const state = location.state as { view?: string };
     if (state?.view && Object.values(AppView).includes(state.view as AppView)) {
       return state.view as AppView;
@@ -75,13 +76,15 @@ const AppContent: React.FC = () => {
     if (user) setUser({ ...user, isPremium: !user.isPremium });
   };
 
+  // Sync state with location state for deep linking
   useEffect(() => {
     const state = location.state as { view?: string };
     if (state?.view && Object.values(AppView).includes(state.view as AppView)) {
       setActiveView(state.view as AppView);
-      navigate(location.pathname, { replace: true, state: {} });
+      // Replace state to avoid loop on back navigation
+      window.history.replaceState({}, document.title);
     }
-  }, [location, navigate]);
+  }, [location]);
 
   const renderContent = () => {
     const profile = user || { name: 'Guest Soul', points, isPremium: false, familyDetails: '' };
@@ -135,7 +138,6 @@ const AppContent: React.FC = () => {
                 <div className="px-2 py-0.5 bg-green-500/20 rounded text-[8px] font-black text-green-400 uppercase tracking-tighter">Verified GREAT</div>
              </div>
 
-             {/* Sanctuary Resonance Gauge */}
              <div className="space-y-3">
                 <div className="flex justify-between items-end">
                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Sanctuary Resonance</span>
@@ -147,7 +149,7 @@ const AppContent: React.FC = () => {
                     style={{ width: `${APP_CONFIG.sanctuaryHealth}%` }}
                   ></div>
                 </div>
-                <p className="text-[8px] text-white/20 italic leading-tight uppercase tracking-widest">DivineSync established at {APP_CONFIG.sanctuaryHealth}% efficiency on production-edge nodes.</p>
+                <p className="text-[8px] text-white/20 italic leading-tight uppercase tracking-widest">DivineSync established at {APP_CONFIG.sanctuaryHealth}% efficiency.</p>
              </div>
 
              <div className="grid grid-cols-2 gap-4">
@@ -159,11 +161,6 @@ const AppContent: React.FC = () => {
                    <p className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">PWA Native Status</p>
                    <p className="text-[10px] font-bold text-amber-400 uppercase">{isStandalone ? 'Sacred Native' : 'Responsive Web'}</p>
                 </div>
-             </div>
-
-             <div className="flex justify-between text-[10px] font-bold opacity-30 border-t border-white/5 pt-4">
-                <span className="uppercase tracking-tighter">Build Hash</span>
-                <span className="font-mono">exodus-{APP_CONFIG.version}-{APP_CONFIG.buildTag}</span>
              </div>
           </div>
 
@@ -191,8 +188,11 @@ const App: React.FC = () => {
   return (
     <HashRouter>
       <Routes>
+        {/* Explicit base route for LandingPage */}
         <Route path="/" element={<LandingPage />} />
+        {/* Sanctuary App Route */}
         <Route path="/app" element={<AppContent />} />
+        {/* Redirect unknown routes to LandingPage */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>

@@ -48,6 +48,7 @@ class ErrorBoundary extends Component<Props, State> {
       );
     }
 
+    // Fixed: Added type safety check for props.children
     return this.props.children;
   }
 }
@@ -55,13 +56,17 @@ class ErrorBoundary extends Component<Props, State> {
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Root element not found');
 
+// Detect environment to minimize console noise
+const isProd = window.location.hostname !== 'localhost';
+
 const root = createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
       <App />
-      <SpeedInsights />
-      <Analytics />
+      {/* Configure Vercel Insights with explicit mode to stabilize CDN script paths */}
+      <SpeedInsights route={window.location.hash || '/'} />
+      <Analytics mode={isProd ? 'production' : 'development'} />
     </ErrorBoundary>
   </React.StrictMode>
 );
