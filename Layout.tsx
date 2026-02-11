@@ -38,9 +38,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeView, setActiveView, us
 
       <header className="w-full max-w-7xl mx-auto flex justify-between items-center py-6 px-6 md:px-10 z-10 relative">
         <div className="flex items-center gap-3">
-          {/* CHROMATIC STAR CLUSTER BRANDMARK */}
           <div className="flex items-center -space-x-1 relative group cursor-pointer" onClick={() => setActiveView(AppView.DASHBOARD)}>
-            {/* Reduced Green Star size from text-xl md:text-2xl to text-base md:text-lg */}
             <span className="text-base md:text-lg text-green-500 animate-pulse drop-shadow-[0_0_8px_rgba(34,197,94,0.5)] z-20 transition-transform group-hover:scale-110">✦</span>
             <span className="text-2xl md:text-3xl text-indigo-400 drop-shadow-[0_0_10px_rgba(129,140,248,0.4)] z-10 transition-transform group-hover:-translate-y-1">✨</span>
             <span className="text-sm md:text-base text-purple-400/60 transition-transform group-hover:translate-x-1">⋆</span>
@@ -51,7 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeView, setActiveView, us
               Lumina
             </h1>
             <span className={`text-[8px] md:text-[10px] font-sans font-bold uppercase tracking-widest opacity-80 -mt-1 ${isManifestTab ? 'text-green-500' : 'text-indigo-500'}`}>
-              {APP_CONFIG.edition}
+              {APP_CONFIG.codename} v{APP_CONFIG.version}
             </span>
           </div>
         </div>
@@ -78,8 +76,19 @@ const Layout: React.FC<LayoutProps> = ({ children, activeView, setActiveView, us
         {children}
       </main>
 
+      {/* Stability Metadata Footer */}
+      <footer className="fixed bottom-0 left-0 w-full py-1 px-4 flex justify-between items-center z-[60] bg-black/40 backdrop-blur-md border-t border-white/5 pointer-events-none">
+        <div className="text-[7px] font-black uppercase tracking-[0.4em] text-white/20">
+          Build: {APP_CONFIG.buildTag} // DR: {APP_CONFIG.fallbackRef}
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="text-[7px] font-black uppercase tracking-[0.4em] text-green-500/40">Sanctuary Health: {APP_CONFIG.sanctuaryHealth}%</div>
+          <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+        </div>
+      </footer>
+
       {/* Bottom Navigation */}
-      <nav className={`fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-2xl glass border p-2 z-50 shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-black/70 backdrop-blur-3xl ring-1 rounded-3xl transition-all duration-1000 ${
+      <nav className={`fixed bottom-8 left-1/2 -translate-x-1/2 w-[95%] max-w-2xl glass border p-2 z-50 shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-black/70 backdrop-blur-3xl ring-1 rounded-3xl transition-all duration-1000 ${
         isManifestTab ? 'border-green-500/20 ring-green-500/10' : 'border-indigo-500/20 ring-indigo-500/10'
       }`}>
         <div className="flex justify-around items-center gap-0.5">

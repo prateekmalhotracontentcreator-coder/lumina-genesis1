@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { AppView, UserProfile, DevotionalContent } from './types';
 import { getDailyVerseInsights } from './services/geminiService';
@@ -49,8 +48,9 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
           <div className="flex items-center gap-2 mt-2">
             <div className="flex items-center gap-1 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full">
               <span className="w-1 h-1 bg-indigo-400 rounded-full animate-pulse"></span>
-              <span className="text-[8px] font-black text-indigo-400 uppercase tracking-tighter">SHEKINAH RESONANCE ACTIVE</span>
+              <span className="text-[8px] font-black text-indigo-400 uppercase tracking-tighter">LATTICE SYNCHRONIZATION ACTIVE</span>
             </div>
+            <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">{APP_CONFIG.codename}</span>
           </div>
         </div>
         <button 
@@ -62,7 +62,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         </button>
       </header>
 
-      {/* 2. DAILY VERSE MEDITATION - INDIGO THEME (NOW AT TOP) */}
+      {/* 2. DAILY VERSE MEDITATION - INDIGO THEME */}
       <section className={`relative glass overflow-hidden border-t-2 border-indigo-500/30 shadow-2xl bg-gradient-to-br from-indigo-950/20 to-black/60 rounded-[40px] transition-all duration-700 ${showDevotional ? 'pb-16' : ''}`}>
         <div className="p-10 md:p-14 text-center space-y-8 relative z-10">
           <p className="text-[9px] font-black text-indigo-500/60 uppercase tracking-[0.6em]">The Living Word</p>
@@ -129,7 +129,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         </div>
       </section>
 
-      {/* 3. PROPHETIC FLOW HERO - AMBER THEME (BELOW LIVING WORD) */}
+      {/* 3. PROPHETIC FLOW HERO - AMBER THEME */}
       <section 
         onClick={() => setActiveView(AppView.GLORY_SCROLL)}
         className="relative overflow-hidden glass p-10 md:p-14 border-t-2 border-amber-500/30 bg-gradient-to-br from-amber-950/20 to-black/60 rounded-[40px] shadow-2xl group cursor-pointer hover:bg-amber-500/5 transition-all"
@@ -155,7 +155,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         </div>
       </section>
 
-      {/* 4. CORE TOOLS - INDIGO ACCENTS */}
+      {/* 4. CORE TOOLS */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-1">
         {[
           { id: AppView.CONFESSIONS, label: 'Word of Faith', icon: '⚔️' },
@@ -174,7 +174,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setActiveView, profile }) => {
         ))}
       </div>
 
-      {/* 5. THE MANIFESTATION RESONANCE MATRIX (KEEPS GREEN GRID) */}
+      {/* 5. THE MANIFESTATION RESONANCE MATRIX */}
       <section 
         onClick={() => setActiveView(AppView.MANIFEST)}
         className="glass p-8 md:p-10 border-green-500/20 bg-green-950/10 shadow-2xl rounded-[40px] relative overflow-hidden group cursor-pointer hover:border-green-500/40 transition-all"

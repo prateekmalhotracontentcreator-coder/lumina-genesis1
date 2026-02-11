@@ -1,9 +1,10 @@
-
 export const APP_CONFIG = {
   name: 'Lumina',
-  edition: 'Shekinah Realization',
-  version: '0.6.0-GOLDEN',
-  buildTag: 'manifest-glory-stable',
+  edition: 'Shekinah Realization: Refinement Layer (Phase 3.1)',
+  version: '0.6.1-STABILITY',
+  buildTag: 'zion-lattice-manna-provision',
+  codename: 'Zion Lattice',
+  fallbackRef: 'Manna Provision (DR-01)',
   env: 'production-ready',
   sanctuaryHealth: 100,
   theme: {
