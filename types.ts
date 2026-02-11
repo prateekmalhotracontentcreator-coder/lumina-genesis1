@@ -1,19 +1,18 @@
-
 export enum AppView {
   LANDING = 'LANDING',
   DASHBOARD = 'DASHBOARD',
   BIBLE = 'BIBLE',
   PRAYERS = 'PRAYERS',
-  COMMUNITY = 'COMMUNITY',
-  MANIFEST = 'MANIFEST',
+  SHEKINAH_PORTAL = 'SHEKINAH_PORTAL',
   AI_PASTOR = 'AI_PASTOR',
+  COMMUNITY_HUB = 'COMMUNITY_HUB',
+  MANIFEST = 'MANIFEST',
   PREMIUM_GUIDE = 'PREMIUM_GUIDE',
   TRIVIA = 'TRIVIA',
   CALENDAR = 'CALENDAR',
   MEDITATION = 'MEDITATION',
   OCCASIONAL_PRAYERS = 'OCCASIONAL_PRAYERS',
   MEDIA_VAULT = 'MEDIA_VAULT',
-  COMMUNITY_HUB = 'COMMUNITY_HUB',
   ESTORE = 'ESTORE',
   SETTINGS = 'SETTINGS',
   BIBLE_STRUCTURE = 'BIBLE_STRUCTURE',
@@ -30,32 +29,7 @@ export interface UserProfile {
   isPremium: boolean;
   points: number;
   lastLogin?: number;
-}
-
-export interface CircleMember {
-  id: string;
-  name: string;
-  progress: number; // 0-100
-  lastActive: string;
-  prayers: string[];
-}
-
-export interface GiftItem {
-  id: string;
-  title: string;
-  description: string;
-  pointsCost: number;
-  type: 'COUPON' | 'GIFT_CARD' | 'PREMIUM_SUB';
-  icon: string;
-}
-
-export interface AffiliateProduct {
-  id: string;
-  title: string;
-  price: string;
-  imageUrl: string;
-  affiliateUrl: string;
-  category: string;
+  manifestationProgress?: number[];
 }
 
 export interface BibleVerse {
@@ -93,8 +67,28 @@ export interface QuizQuestion {
   explanation: string;
 }
 
-export interface CalendarEvent {
-  date: string;
+export interface CircleMember {
+  id: string;
+  name: string;
+  progress: number;
+  lastActive: string;
+  prayers: string[];
+}
+
+export interface GiftItem {
+  id: string;
   title: string;
   description: string;
+  pointsCost: number;
+  type: string;
+  icon: string;
+}
+
+export interface AffiliateProduct {
+  id: string;
+  title: string;
+  price: string;
+  imageUrl: string;
+  affiliateUrl: string;
+  category: string;
 }

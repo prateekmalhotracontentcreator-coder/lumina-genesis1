@@ -1,5 +1,13 @@
+export function encode(bytes: Uint8Array): string {
+  let binary = '';
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
 
-export function decodeBase64(base64: string) {
+export function decode(base64: string): Uint8Array {
   const binaryString = atob(base64);
   const len = binaryString.length;
   const bytes = new Uint8Array(len);
@@ -9,15 +17,18 @@ export function decodeBase64(base64: string) {
   return bytes;
 }
 
+export function decodeBase64(base64: string) {
+  return decode(base64);
+}
+
 export async function decodeAudioData(
   data: Uint8Array,
   ctx: AudioContext,
   sampleRate: number,
   numChannels: number,
 ): Promise<AudioBuffer> {
-  const length = Math.floor(data.byteLength / 2) * 2;
-  const dataInt16 = new Int16Array(data.buffer, data.byteOffset, length / 2);
-  
+  // Ensure we have raw PCM data (int16)
+  const dataInt16 = new Int16Array(data.buffer);
   const frameCount = dataInt16.length / numChannels;
   const buffer = ctx.createBuffer(numChannels, frameCount, sampleRate);
 

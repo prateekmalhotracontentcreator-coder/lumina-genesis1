@@ -84,7 +84,8 @@ const LandingPage: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div 
-            onClick={() => handleStart(AppView.AI_PASTOR)}
+            // Fixed: AI_PASTOR replaced with SHEKINAH_PORTAL
+            onClick={() => handleStart(AppView.SHEKINAH_PORTAL)}
             className="glass p-8 space-y-4 hover:bg-white/5 transition-colors border border-white/5 group cursor-pointer"
           >
             <div className="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🤖</div>

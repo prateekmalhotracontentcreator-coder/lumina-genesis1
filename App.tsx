@@ -1,41 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
-import Layout from './Layout';
-import Dashboard from './Dashboard';
-import BibleReader from './BibleReader';
-import PrayerWall from './PrayerWall';
-import AIChaplain from './AIChaplain';
-import ManifestationPlan from './ManifestationPlan';
-import PremiumGuide from './PremiumGuide';
-import BibleTrivia from './BibleTrivia';
-import ChristianCalendar from './ChristianCalendar';
-import SleepMeditations from './SleepMeditations';
-import OccasionalPrayers from './OccasionalPrayers';
-import MediaVault from './MediaVault';
-import CommunityHub from './CommunityHub';
-import EStore from './EStore';
-import LandingPage from './LandingPage';
-import BibleStructure from './BibleStructure';
-import BibleSituationSearch from './BibleSituationSearch';
-import Confessions from './Confessions';
-import BereanTool from './BereanTool';
+import Layout from './components/Layout';
+import Dashboard from './components/Dashboard';
+import BibleReader from './components/BibleReader';
+import PrayerWall from './components/PrayerWall';
+import ShekinahLive from './components/ShekinahLive';
+import AIChaplain from './components/AIChaplain';
+import ManifestationPlan from './components/ManifestationPlan';
+import PremiumGuide from './components/PremiumGuide';
+import BibleTrivia from './components/BibleTrivia';
+import ChristianCalendar from './components/ChristianCalendar';
+import SleepMeditations from './components/SleepMeditations';
+import OccasionalPrayers from './components/OccasionalPrayers';
+import MediaVault from './components/MediaVault';
+import CommunityHub from './components/CommunityHub';
+import EStore from './components/EStore';
+import LandingPage from './components/LandingPage';
+import BibleStructure from './components/BibleStructure';
+import BibleSituationSearch from './components/BibleSituationSearch';
+import Confessions from './components/Confessions';
+import BereanTool from './components/BereanTool';
 import { AppView, UserProfile } from './types';
-import { APP_CONFIG } from './constants';
+import { auth, googleProvider, signInWithPopup, onAuthStateChanged, signOut, syncUserProfile } from './services/firebase';
 
 const AppContent: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const [isStandalone, setIsStandalone] = useState(false);
-  const [isProduction, setIsProduction] = useState(false);
-  
-  const [user, setUser] = useState<UserProfile | null>(() => {
-    const saved = localStorage.getItem('lumina_user');
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [activeView, setActiveView] = useState<AppView>(() => {
-    // If we land on the /app route, default to Dashboard
     const state = location.state as { view?: string };
     if (state?.view && Object.values(AppView).includes(state.view as AppView)) {
       return state.view as AppView;
@@ -43,131 +37,104 @@ const AppContent: React.FC = () => {
     return AppView.DASHBOARD;
   });
 
-  const [points, setPoints] = useState(() => {
-    return parseInt(localStorage.getItem('lumina_points') || '750');
-  });
-
+  // EXODUS POWER SOURCE: Real Auth Listener
   useEffect(() => {
-    if (window.matchMedia('(display-mode: standalone)').matches || (window as any).navigator.standalone) {
-      setIsStandalone(true);
-    }
-    if (window.location.hostname !== 'localhost') {
-      setIsProduction(true);
-    }
-    
-    if (user) localStorage.setItem('lumina_user', JSON.stringify(user));
-    localStorage.setItem('lumina_points', points.toString());
-  }, [user, points]);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setLoading(true);
+      if (firebaseUser) {
+        const profile = await syncUserProfile(firebaseUser);
+        setUser(profile as UserProfile);
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  const handleLogin = () => {
-    const mockUser: UserProfile = {
-      uid: 'exodus_dev_01',
-      name: 'Exodus Disciple',
-      email: 'believer@lumina.genesis',
-      photoURL: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100',
-      familyDetails: '',
-      isPremium: false,
-      points: points
-    };
-    setUser(mockUser);
+  const handleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error("Sanctuary Link Failed:", error);
+    }
   };
 
-  const togglePremium = () => {
-    if (user) setUser({ ...user, isPremium: !user.isPremium });
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      navigate('/');
+    } catch (error) {
+      console.error("Exodus Departure Failed:", error);
+    }
   };
 
-  // Sync state with location state for deep linking
   useEffect(() => {
     const state = location.state as { view?: string };
     if (state?.view && Object.values(AppView).includes(state.view as AppView)) {
       setActiveView(state.view as AppView);
-      // Replace state to avoid loop on back navigation
       window.history.replaceState({}, document.title);
     }
   }, [location]);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0f1018] flex flex-col items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-green-500/5 bg-[linear-gradient(rgba(34,197,94,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.05)_1px,transparent_1px)] bg-[size:30px_30px]" />
+        <div className="w-16 h-16 border-4 border-green-500/20 border-t-green-500 rounded-full animate-spin relative z-10" />
+        <p className="mt-8 text-[10px] font-black text-green-500 uppercase tracking-[0.5em] animate-pulse relative z-10">Synchronizing Resonance...</p>
+      </div>
+    );
+  }
+
   const renderContent = () => {
-    const profile = user || { name: 'Guest Soul', points, isPremium: false, familyDetails: '' };
+    const profile = user || { name: 'Guest Soul', points: 0, isPremium: false, familyDetails: '' };
     
     switch (activeView) {
       case AppView.DASHBOARD: return <Dashboard setActiveView={setActiveView} profile={profile} />;
       case AppView.BIBLE: return <BibleReader />;
-      case AppView.PRAYERS: return <PrayerWall />;
+      case AppView.PRAYERS: return <PrayerWall user={user} />;
+      case AppView.SHEKINAH_PORTAL: return <ShekinahLive />;
       case AppView.AI_PASTOR: return <AIChaplain />;
       case AppView.CONFESSIONS: return <Confessions userName={profile.name} />;
-      case AppView.MANIFEST: return <ManifestationPlan />;
+      case AppView.MANIFEST: return <ManifestationPlan user={user} />;
       case AppView.MEDITATION: return <SleepMeditations />;
       case AppView.TRIVIA: return <BibleTrivia />;
       case AppView.CALENDAR: return <ChristianCalendar />;
       case AppView.OCCASIONAL_PRAYERS: return <OccasionalPrayers isPremium={profile.isPremium} onSubscribe={() => setActiveView(AppView.ESTORE)} userName={profile.name} />;
       case AppView.MEDIA_VAULT: return <MediaVault isPremium={profile.isPremium} onSubscribe={() => setActiveView(AppView.ESTORE)} userName={profile.name} />;
       case AppView.COMMUNITY_HUB: return <CommunityHub />;
-      case AppView.ESTORE: return <EStore profile={profile} onSubscribe={togglePremium} />;
+      case AppView.ESTORE: return <EStore profile={profile} onSubscribe={() => setUser({...profile, isPremium: true})} />;
       case AppView.BIBLE_STRUCTURE: return <BibleStructure />;
       case AppView.SITUATION_SEARCH: return <BibleSituationSearch />;
       case AppView.PREMIUM_GUIDE: return <PremiumGuide isPremium={profile.isPremium} onSubscribe={() => setActiveView(AppView.ESTORE)} />;
       case AppView.SETTINGS: return (
         <div className="space-y-6 pb-20 max-w-2xl mx-auto animate-enter">
-          <div className="glass p-8 flex items-center gap-6 border-indigo-500/30 bg-indigo-900/10 shadow-2xl">
-            <div className="w-20 h-20 rounded-full bg-indigo-500/20 border-2 border-indigo-500/50 flex items-center justify-center overflow-hidden shadow-2xl group">
-               {user?.photoURL ? <img src={user.photoURL} alt="Avatar" className="w-full h-full object-cover group-hover:scale-110 transition-transform" /> : <span className="text-3xl">👤</span>}
+          <div className="glass p-8 flex items-center gap-6 border-green-500/30 bg-green-950/10 shadow-2xl rounded-3xl">
+            <div className="w-20 h-20 rounded-full bg-green-500/20 border-2 border-green-500/50 flex items-center justify-center overflow-hidden shadow-2xl">
+               {user?.photoURL ? <img src={user.photoURL} alt="Avatar" className="w-full h-full object-cover" /> : <span className="text-3xl">👤</span>}
             </div>
             <div>
               <h3 className="text-xl font-bold text-white leading-tight">{user ? user.name : 'Guest Soul'}</h3>
-              <p className="text-xs text-white/40 mt-1">{user ? user.email : 'Sanctuary Status: Offline'}</p>
-              <div className="mt-3 inline-block px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full">
-                <span className="text-[8px] font-black text-amber-500 uppercase tracking-widest">{APP_CONFIG.edition}</span>
-              </div>
+              <p className="text-xs text-white/40 mt-1">{user ? user.email : 'Sanctuary Link: Offline'}</p>
             </div>
           </div>
           
-          {!user && (
-            <button onClick={handleLogin} className="w-full py-5 bg-white text-black font-bold rounded-2xl shadow-2xl uppercase tracking-widest text-xs hover:scale-[1.02] transition-all">
+          {!user ? (
+            <button onClick={handleLogin} className="w-full py-6 bg-white text-black font-black rounded-2xl shadow-2xl uppercase tracking-[0.4em] text-[10px] hover:scale-[1.02] transition-all">
               Initialize Exodus Account
             </button>
-          )}
-
-          <div className="space-y-4">
-             <h4 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] px-2">Theological Validation</h4>
-             <BereanTool />
-          </div>
-
-          <div className="glass p-8 space-y-8 border-amber-500/20 bg-amber-500/5 shadow-2xl">
-             <div className="flex justify-between items-center">
-                <h4 className="text-[10px] font-black text-amber-500 uppercase tracking-[0.4em]">Exodus Performance Sync</h4>
-                <div className="px-2 py-0.5 bg-green-500/20 rounded text-[8px] font-black text-green-400 uppercase tracking-tighter">Verified GREAT</div>
-             </div>
-
-             <div className="space-y-3">
-                <div className="flex justify-between items-end">
-                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Sanctuary Resonance</span>
-                  <span className="text-2xl font-black text-amber-400">{APP_CONFIG.sanctuaryHealth}%</span>
-                </div>
-                <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-                  <div 
-                    className="h-full bg-gradient-to-r from-amber-500 to-green-500 rounded-full shadow-[0_0_15px_rgba(251,191,36,0.5)] transition-all duration-1000"
-                    style={{ width: `${APP_CONFIG.sanctuaryHealth}%` }}
-                  ></div>
-                </div>
-                <p className="text-[8px] text-white/20 italic leading-tight uppercase tracking-widest">DivineSync established at {APP_CONFIG.sanctuaryHealth}% efficiency.</p>
-             </div>
-
-             <div className="grid grid-cols-2 gap-4">
-                <div className="glass p-4 bg-white/5 border-white/10">
-                   <p className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">Environment</p>
-                   <p className="text-[10px] font-bold text-indigo-400 uppercase">{isProduction ? 'Live Sanctuary' : 'Staging Light'}</p>
-                </div>
-                <div className="glass p-4 bg-white/5 border-white/10">
-                   <p className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">PWA Native Status</p>
-                   <p className="text-[10px] font-bold text-amber-400 uppercase">{isStandalone ? 'Sacred Native' : 'Responsive Web'}</p>
-                </div>
-             </div>
-          </div>
-
-          {user && (
-            <button onClick={() => {setUser(null); localStorage.removeItem('lumina_user');}} className="w-full py-4 glass border-red-500/20 text-red-400 font-bold rounded-xl text-xs uppercase hover:bg-red-500/5 transition-all">
-              Sign Out of Sanctuary
-            </button>
+          ) : (
+            <div className="space-y-6">
+              <div className="space-y-4">
+                 <h4 className="text-[10px] font-black text-green-500/40 uppercase tracking-[0.4em] px-2">Theological Validation</h4>
+                 <BereanTool />
+              </div>
+              <button onClick={handleLogout} className="w-full py-4 glass border-red-500/20 text-red-400 font-black rounded-2xl text-[10px] uppercase tracking-[0.4em] hover:bg-red-500/5 transition-all">
+                Terminate Resonance Link
+              </button>
+            </div>
           )}
         </div>
       );
@@ -188,11 +155,8 @@ const App: React.FC = () => {
   return (
     <HashRouter>
       <Routes>
-        {/* Explicit base route for LandingPage */}
         <Route path="/" element={<LandingPage />} />
-        {/* Sanctuary App Route */}
         <Route path="/app" element={<AppContent />} />
-        {/* Redirect unknown routes to LandingPage */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>

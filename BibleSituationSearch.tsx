@@ -27,7 +27,8 @@ const BibleSituationSearch: React.FC = () => {
   const handleGenerateVideo = async () => {
     if (!result || videoLoading) return;
     
-    if (!(window as any).aistudio?.hasSelectedApiKey()) {
+    // Fixed: hasSelectedApiKey must be awaited according to guidelines
+    if (!await (window as any).aistudio?.hasSelectedApiKey()) {
       await (window as any).aistudio?.openSelectKey();
     }
 

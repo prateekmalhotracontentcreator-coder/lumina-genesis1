@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { APP_CONFIG } from './constants';
@@ -82,7 +83,11 @@ const LandingPage: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div onClick={() => handleStart(AppView.AI_PASTOR)} className="glass p-8 space-y-4 hover:bg-white/5 transition-all border border-white/5 group cursor-pointer hover:-translate-y-2">
+          <div 
+            // Fixed: AI_PASTOR replaced with SHEKINAH_PORTAL as AI_PASTOR is not defined in AppView enum
+            onClick={() => handleStart(AppView.SHEKINAH_PORTAL)} 
+            className="glass p-8 space-y-4 hover:bg-white/5 transition-all border border-white/5 group cursor-pointer hover:-translate-y-2"
+          >
             <div className="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🤖</div>
             <h3 className="text-xl font-bold">AI Pastor</h3>
             <p className="text-sm text-white/50 leading-relaxed">Personalized theological insight and prayer based on your life's context. Powered by Gemini 3 Pro.</p>
