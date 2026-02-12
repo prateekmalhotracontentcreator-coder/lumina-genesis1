@@ -1,31 +1,32 @@
-
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { HashRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Layout from './Layout';
 import { AppView, UserProfile } from './types';
 import { auth, googleProvider, signInWithPopup, onAuthStateChanged, signOut, syncUserProfile } from './services/firebase';
+import BereanTool from './components/BereanTool';
 
 // Lazy Loaded Components for Code Splitting
-const Dashboard = lazy(() => import('./Dashboard'));
-const BibleReader = lazy(() => import('./BibleReader'));
-const PrayerWall = lazy(() => import('./PrayerWall'));
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const BibleReader = lazy(() => import('./components/BibleReader'));
+const PrayerWall = lazy(() => import('./components/PrayerWall'));
 const ShekinahLive = lazy(() => import('./components/ShekinahLive'));
-const AIChaplain = lazy(() => import('./AIChaplain'));
-const ManifestationPlan = lazy(() => import('./ManifestationPlan'));
+const AIChaplain = lazy(() => import('./components/AIChaplain'));
+const ManifestationPlan = lazy(() => import('./components/ManifestationPlan'));
 const GloryScroll = lazy(() => import('./components/GloryScroll'));
-const PremiumGuide = lazy(() => import('./PremiumGuide'));
-const BibleTrivia = lazy(() => import('./BibleTrivia'));
-const ChristianCalendar = lazy(() => import('./ChristianCalendar'));
-const SleepMeditations = lazy(() => import('./SleepMeditations'));
-const OccasionalPrayers = lazy(() => import('./OccasionalPrayers'));
-const MediaVault = lazy(() => import('./MediaVault'));
-const CommunityHub = lazy(() => import('./CommunityHub'));
-const EStore = lazy(() => import('./EStore'));
-const BibleStructure = lazy(() => import('./BibleStructure'));
-const BibleSituationSearch = lazy(() => import('./BibleSituationSearch'));
-const Confessions = lazy(() => import('./Confessions'));
-const BereanTool = lazy(() => import('./BereanTool'));
+const PremiumGuide = lazy(() => import('./components/PremiumGuide'));
+const BibleTrivia = lazy(() => import('./components/BibleTrivia'));
+const ChristianCalendar = lazy(() => import('./components/ChristianCalendar'));
+const SleepMeditations = lazy(() => import('./components/SleepMeditations'));
+const OccasionalPrayers = lazy(() => import('./components/OccasionalPrayers'));
+const MediaVault = lazy(() => import('./components/MediaVault'));
+const CommunityHub = lazy(() => import('./components/CommunityHub'));
+const EStore = lazy(() => import('./components/EStore'));
+const BibleStructure = lazy(() => import('./components/BibleStructure'));
+const BibleSituationSearch = lazy(() => import('./components/BibleSituationSearch'));
+const Confessions = lazy(() => import('./components/Confessions'));
 const KingdomVisionBoard = lazy(() => import('./components/KingdomVisionBoard'));
+const ScribesProtocol = lazy(() => import('./components/ScribesProtocol'));
+const SystemCommand = lazy(() => import('./components/SystemCommand'));
 
 // Sacred Loading State for Suspense Fallbacks
 const ResonanceLoading = () => (
@@ -40,6 +41,17 @@ const AppContent: React.FC = () => {
   const location = useLocation();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [telemetryPulse, setTelemetryPulse] = useState({ latency: 142, flux: 65 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTelemetryPulse({
+        latency: Math.floor(Math.random() * (160 - 130 + 1)) + 130,
+        flux: Math.floor(Math.random() * (85 - 60 + 1)) + 60
+      });
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   const [activeView, setActiveView] = useState<AppView>(() => {
     const state = location.state as { view?: string };
@@ -122,31 +134,106 @@ const AppContent: React.FC = () => {
       case AppView.SITUATION_SEARCH: return <BibleSituationSearch />;
       case AppView.KINGDOM_VISION: return <KingdomVisionBoard user={profile} />;
       case AppView.PREMIUM_GUIDE: return <PremiumGuide isPremium={profile.isPremium} onSubscribe={() => setActiveView(AppView.ESTORE)} />;
+      case AppView.SCRIBES_PROTOCOL: return <ScribesProtocol />;
+      case AppView.SYSTEM_COMMAND: return <SystemCommand />;
       case AppView.SETTINGS: return (
-        <div className="space-y-6 pb-20 max-w-2xl mx-auto animate-enter">
-          <div className="glass p-8 flex items-center gap-6 border-green-500/30 bg-green-950/10 shadow-2xl rounded-3xl">
-            <div className="w-20 h-20 rounded-full bg-green-500/20 border-2 border-green-500/50 flex items-center justify-center overflow-hidden shadow-2xl">
-               {user?.photoURL ? <img src={user.photoURL} alt="Avatar" className="w-full h-full object-cover" /> : <span className="text-3xl">👤</span>}
+        <div className="space-y-6 pb-20 max-w-4xl mx-auto animate-enter px-4">
+          {/* MASTER ARCHITECT ACCOUNT MODULE */}
+          <div className="glass p-8 md:p-10 flex flex-col md:flex-row items-center md:items-start justify-between gap-8 border-green-500/20 bg-black/60 shadow-3xl rounded-[45px] relative overflow-hidden group">
+            {/* Background Blueprints Decorative */}
+            <div className="absolute top-0 right-0 p-8 text-9xl opacity-[0.02] select-none font-black italic group-hover:rotate-6 transition-transform duration-1000">INFRA</div>
+            
+            <div className="flex items-center gap-8 relative z-10">
+              <div className="w-24 h-24 rounded-full bg-green-500/10 border-2 border-green-500/30 flex items-center justify-center overflow-hidden shadow-2xl">
+                 {user?.photoURL ? <img src={user.photoURL} alt="Avatar" className="w-full h-full object-cover" /> : <span className="text-4xl">👤</span>}
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight leading-none">{user ? user.name : 'Guest Soul'}</h3>
+                <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">{user ? user.email : 'Link: Offline'}</p>
+                <div className="flex items-center gap-2 mt-2">
+                   <div className="px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20">
+                      <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">Senior Architect Access</span>
+                   </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-white leading-tight">{user ? user.name : 'Guest Soul'}</h3>
-              <p className="text-xs text-white/40 mt-1">{user ? user.email : 'Sanctuary Link: Offline'}</p>
+
+            {/* TOP RIGHT TELEMETRY WIDGET - THE UNDERLAY ENGINE */}
+            <div 
+              onClick={() => setActiveView(AppView.SYSTEM_COMMAND)}
+              className="glass p-6 bg-green-500/5 border border-green-500/10 rounded-[30px] flex gap-8 items-center cursor-pointer hover:border-green-500/40 transition-all group/tele"
+            >
+               <div className="flex flex-col gap-1">
+                  <span className="text-[7px] font-black text-green-500 uppercase tracking-widest opacity-60">Lattice Latency</span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-xl font-bold text-white tabular-nums">{telemetryPulse.latency}</span>
+                    <span className="text-[8px] font-bold text-white/30 uppercase">ms</span>
+                  </div>
+               </div>
+               <div className="w-px h-10 bg-white/5" />
+               <div className="flex flex-col gap-1">
+                  <span className="text-[7px] font-black text-blue-500 uppercase tracking-widest opacity-60">Intercession Flux</span>
+                  <div className="flex flex-col gap-1 mt-0.5">
+                    <div className="h-1 w-16 bg-white/5 rounded-full overflow-hidden">
+                       <div className="h-full bg-blue-500 animate-pulse" style={{ width: `${telemetryPulse.flux}%` }} />
+                    </div>
+                    <span className="text-[8px] font-bold text-white/30 text-right uppercase tracking-widest">{telemetryPulse.flux}% Optimal</span>
+                  </div>
+               </div>
+               <div className="w-px h-10 bg-white/5" />
+               <div className="flex flex-col items-center">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-ping mb-1" />
+                  <span className="text-[7px] font-black text-white/30 uppercase tracking-widest">Schema OK</span>
+               </div>
             </div>
           </div>
           
           {!user ? (
-            <button onClick={handleLogin} className="w-full py-6 bg-white text-black font-black rounded-2xl shadow-2xl uppercase tracking-[0.4em] text-[10px] hover:scale-[1.02] transition-all">
+            <button onClick={handleLogin} className="w-full py-8 bg-white text-black font-black rounded-3xl shadow-3xl uppercase tracking-[0.5em] text-[11px] hover:scale-[1.01] transition-all border-b-4 border-green-600">
               Initialize Exodus Account
             </button>
           ) : (
             <div className="space-y-6">
-              <div className="space-y-4">
-                 <h4 className="text-[10px] font-black text-green-500/40 uppercase tracking-[0.4em] px-2">Theological Validation</h4>
-                 <BereanTool />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                   <h4 className="text-[10px] font-black text-green-500/40 uppercase tracking-[0.4em] px-4">System Protocols</h4>
+                   <button 
+                    onClick={() => setActiveView(AppView.SCRIBES_PROTOCOL)}
+                    className="w-full glass p-8 border-amber-500/10 bg-amber-950/5 hover:border-amber-500/40 transition-all text-left flex items-center justify-between group rounded-[35px]"
+                   >
+                      <div>
+                        <h5 className="text-lg font-bold text-amber-400 serif italic">The Scribe's Protocol</h5>
+                        <p className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">Architectural Documentation</p>
+                      </div>
+                      <span className="text-3xl group-hover:translate-x-1 transition-transform">📜</span>
+                   </button>
+                   
+                   <button 
+                    onClick={() => setActiveView(AppView.SYSTEM_COMMAND)}
+                    className="w-full glass p-8 border-green-500/10 bg-green-950/5 hover:border-green-500/40 transition-all text-left flex items-center justify-between group rounded-[35px]"
+                   >
+                      <div>
+                        <h5 className="text-lg font-bold text-green-400 serif italic">Architect Console</h5>
+                        <p className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">Global Lattice Control</p>
+                      </div>
+                      <span className="text-3xl group-hover:scale-110 transition-transform">⚙️</span>
+                   </button>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="text-[10px] font-black text-indigo-500/40 uppercase tracking-[0.4em] px-4">Theological Integrity</h4>
+                  <div className="glass p-8 rounded-[35px] border-white/5 bg-black/40">
+                    <BereanTool />
+                  </div>
+                </div>
               </div>
-              <button onClick={handleLogout} className="w-full py-4 glass border-red-500/20 text-red-400 font-black rounded-2xl text-[10px] uppercase tracking-[0.4em] hover:bg-red-500/5 transition-all">
-                Terminate Resonance Link
-              </button>
+
+              <div className="pt-10 flex flex-col items-center gap-6">
+                <button onClick={handleLogout} className="px-12 py-4 glass border-red-500/10 text-red-400 font-black rounded-full text-[9px] uppercase tracking-[0.4em] hover:bg-red-500/5 transition-all">
+                  Terminate Resonance Link
+                </button>
+                <p className="text-[8px] font-black text-white/10 uppercase tracking-[0.8em]">Exodus Migration Status: Active</p>
+              </div>
             </div>
           )}
         </div>
@@ -166,7 +253,7 @@ const AppContent: React.FC = () => {
   );
 };
 
-const LandingPageLazy = lazy(() => import('./LandingPage'));
+const LandingPageLazy = lazy(() => import('./components/LandingPage'));
 
 const App: React.FC = () => {
   return (

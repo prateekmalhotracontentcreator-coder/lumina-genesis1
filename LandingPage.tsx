@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { APP_CONFIG } from './constants';
@@ -84,8 +83,7 @@ const LandingPage: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div 
-            // Fixed: AI_PASTOR replaced with SHEKINAH_PORTAL as AI_PASTOR is not defined in AppView enum
-            onClick={() => handleStart(AppView.SHEKINAH_PORTAL)} 
+            onClick={() => handleStart(AppView.AI_PASTOR)} 
             className="glass p-8 space-y-4 hover:bg-white/5 transition-all border border-white/5 group cursor-pointer hover:-translate-y-2"
           >
             <div className="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🤖</div>
@@ -95,28 +93,28 @@ const LandingPage: React.FC = () => {
           </div>
           <div onClick={() => handleStart(AppView.COMMUNITY_HUB)} className="glass p-8 space-y-4 hover:bg-white/5 transition-all border border-white/5 group cursor-pointer hover:-translate-y-2">
             <div className="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🌍</div>
-            <h3 className="text-xl font-bold">Prayer Chain</h3>
+            <h3 className="text-xl font-bold">Remnant community</h3>
             <p className="text-sm text-white/50 leading-relaxed">Join thousands in synchronized prayer. Share requests securely with your private circle.</p>
             <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest mt-4 block">Join the Chain →</span>
           </div>
           <div onClick={() => handleStart(AppView.SITUATION_SEARCH)} className="glass p-8 space-y-4 hover:bg-white/5 transition-all border border-white/5 group cursor-pointer hover:-translate-y-2">
             <div className="w-14 h-14 bg-amber-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🎬</div>
-            <h3 className="text-xl font-bold">Simulations</h3>
+            <h3 className="text-xl font-bold">Divine Simulations</h3>
             <p className="text-sm text-white/50 leading-relaxed">Visualize scripture like never before. Generate high-definition Veo video meditations.</p>
              <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest mt-4 block">Create Simulation →</span>
           </div>
         </div>
       </section>
 
-      {/* LEAD GENERATION MODULE */}
+      {/* LEAD GENERATION MODULE - RESTORED */}
       <section id="newsletter" className="py-24 px-6 max-w-4xl mx-auto">
-        <div className="glass p-12 text-center relative overflow-hidden bg-gradient-to-br from-indigo-900/20 to-amber-900/10 border-white/10 shadow-[0_0_100px_rgba(79,70,229,0.1)]">
+        <div className="glass p-12 text-center relative overflow-hidden bg-gradient-to-br from-indigo-900/20 to-amber-900/10 border-white/10 shadow-[0_0_100px_rgba(79,70,229,0.1)] rounded-[45px]">
           <div className="absolute top-0 right-0 p-8 text-6xl opacity-5">🕊️</div>
-          <h2 className="text-3xl serif font-bold mb-4">Join the Sanctified List</h2>
+          <h2 className="text-3xl md:text-4xl serif font-bold mb-4">Join the Sanctified List</h2>
           <p className="text-white/50 text-sm mb-10 max-w-md mx-auto leading-relaxed">Get early access to our upcoming "Ecclesia" release and weekly AI devotionals delivered to your spirit.</p>
           
           {subscribed ? (
-            <div className="p-10 glass border-green-500/20 bg-green-500/10 animate-enter">
+            <div className="p-10 glass border-green-500/20 bg-green-500/10 animate-enter rounded-3xl">
               <span className="text-3xl mb-4 block">📜</span>
               <h3 className="text-xl font-bold text-green-400 uppercase tracking-widest">Blessings Received</h3>
               <p className="text-xs text-white/60 mt-2 italic">You are now part of the Lumina remnant. Check your inbox soon.</p>
@@ -149,7 +147,6 @@ const LandingPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Free Plan */}
             <div className="glass p-8 md:p-12 border border-white/10 opacity-80 hover:opacity-100 transition-opacity">
               <h3 className="text-xl font-bold mb-2">Pilgrim (Free)</h3>
               <div className="text-3xl font-bold mb-6">$0<span className="text-sm font-normal text-white/40">/mo</span></div>
@@ -163,8 +160,7 @@ const LandingPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Premium Plan */}
-            <div className="glass p-8 md:p-12 border-2 border-indigo-500/50 bg-indigo-900/10 relative transform md:scale-105 shadow-2xl">
+            <div className="glass p-8 md:p-12 border-2 border-indigo-500/50 bg-indigo-900/10 relative transform md:scale-105 shadow-2xl rounded-3xl">
               <div className="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-bl-xl">
                 Most Popular
               </div>
@@ -175,37 +171,10 @@ const LandingPage: React.FC = () => {
                 <li className="flex items-center gap-2">✨ <strong>Veo Simulations</strong> (HD)</li>
                 <li className="flex items-center gap-2">✨ <strong>Prophetic Alarms</strong> (TTS)</li>
               </ul>
-              <button onClick={() => handleStart(AppView.PREMIUM_GUIDE)} className="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-indigo-500 shadow-lg transition-all">
-                Start Trial
+              <button onClick={() => handleStart(AppView.ESTORE)} className="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-indigo-50 shadow-lg transition-all">
+                Activate Provision
               </button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section - RESTORED */}
-      <section id="faq" className="py-24 px-6 max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl serif font-bold mb-4">Wisdom & Answers</h2>
-          <p className="text-white/40 text-sm italic">Seek, and you shall find. Understanding the {APP_CONFIG.edition} migration.</p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="glass p-8 border border-white/5 hover:border-indigo-500/20 transition-all hover:-translate-y-1">
-            <h4 className="font-bold text-sm mb-3 text-white/90">Is the AI content biblically accurate?</h4>
-            <p className="text-sm text-white/50 leading-relaxed italic">Our models are prompted with rigorous theological constraints. For every insight, we provide the "Berean Tool" in Settings to cross-reference claims against literal scripture.</p>
-          </div>
-          <div className="glass p-8 border border-white/5 hover:border-indigo-500/20 transition-all hover:-translate-y-1">
-            <h4 className="font-bold text-sm mb-3 text-white/90">How does the Prayer Chain work?</h4>
-            <p className="text-sm text-white/50 leading-relaxed italic">You can post anonymous or public petitions. When a member of the remnant clicks "Pray", you receive a spiritual notification. Data is encrypted and sacred.</p>
-          </div>
-          <div className="glass p-8 border border-white/5 hover:border-indigo-500/20 transition-all hover:-translate-y-1">
-            <h4 className="font-bold text-sm mb-3 text-white/90">What is the "Exodus" migration?</h4>
-            <p className="text-sm text-white/50 leading-relaxed italic">Phase-2 (Exodus) represents our move from internal build (Genesis) to global accessibility. It involves the integration of high-definition Veo simulations and real-time social intercession.</p>
-          </div>
-          <div className="glass p-8 border border-white/5 hover:border-indigo-500/20 transition-all hover:-translate-y-1">
-            <h4 className="font-bold text-sm mb-3 text-white/90">Can I use my own API Key?</h4>
-            <p className="text-sm text-white/50 leading-relaxed italic">Yes. For high-definition Veo video generation, the app allows you to connect your personal Google Cloud API key to unlock unlimited simulations.</p>
           </div>
         </div>
       </section>

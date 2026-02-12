@@ -1,65 +1,36 @@
 
-# ✨ Lumina: Genesis (v0.1.0)
+# ✨ Lumina: Sovereign (v0.7.0)
 
 **The AI-Powered Spiritual Sanctuary.**
 
-Lumina is a high-end, visual-first Christian application designed for the modern era. It leverages the latest **Google Gemini 2.5 & 3.0** models to provide theological guidance, generate prayers, and simulate biblical narratives through **Veo** video generation.
+Lumina is a high-end, visual-first Christian application designed for the modern era. It leverages the latest **Google Gemini 2.5 & 3.0** models to provide theological guidance, generate marketplace strategies, and simulate biblical narratives through **Veo** and **Live API** technology.
 
-## 🌟 Key Features
+## 🌟 Sovereign Edition Features
 
-*   **AI Pastor**: Context-aware spiritual counseling using `gemini-3-flash-preview`.
-*   **Veo Divine Simulations**: Generate cinematic representations of biblical miracles using `veo-3.1-fast-generate-preview`.
-*   **Community Prayer Chain**: A glassmorphic social hub for intercession.
-*   **Media Vault**: Generate custom spiritual wallpapers (`gemini-2.5-flash-image`) and prophetic alarms (TTS).
-*   **Premium Guide**: Personalized audio prayers tailored to user life details.
+*   **Zion Lattice Architecture**: Resilient cloud infrastructure using Firebase and Gemini 3 Pro.
+*   **Shekinah Portal**: Real-time voice-to-voice spiritual intercession (Gemini Live API).
+*   **Marketplace Mandate**: Strategy generation and architectural blueprint visualization.
+*   **Manifestation Matrix**: A 21-day cloud-synced discipline tracker with real-time "Green Tick" resonance.
+*   **The Scribe's Revelation**: A torn-parchment 3D book interface for prayer history.
+*   **Lattice Telemetry**: A built-in DevOps monitor for sanctuary health and node resonance.
 
 ## 🛠 Tech Stack
 
-*   **Framework**: React 19 + TypeScript
+*   **Framework**: React 19 + TypeScript (Sovereign stability)
 *   **Build Tool**: Vite 6
-*   **Styling**: Tailwind CSS + Custom CSS Animations
-*   **AI Engine**: Google GenAI SDK (`@google/genai`)
-*   **Routing**: React Router DOM (HashRouter for static deployment)
+*   **Database**: Firestore (Real-time Cloud Pulse)
+*   **AI Engines**: Google GenAI SDK (Flash, Pro, Veo, TTS, Live API)
+*   **UI/UX**: Tailwind CSS + Custom Perspective Grids + Glassmorphism
 
-## 🚀 Setup & Deployment
+## 🚀 Finalization Protocol (v0.7.0)
 
-This project uses a **Flat Root Structure** for maximum compatibility.
+This version marks the completion of the **Sovereign Dominion** phase. 
+- All API tools (Search, Maps, Video, Image) are integrated.
+- Authentication and User Profile syncing are verified.
+- The "Green Tick" Manifestation logic is production-hardened.
 
-1.  **Clone the Repo**
-    ```bash
-    git clone https://github.com/your-username/lumina-genesis.git
-    cd lumina-genesis
-    ```
-
-2.  **Install Dependencies**
-    ```bash
-    npm install
-    ```
-
-3.  **Environment Variables**
-    Create a `.env` file in the root (or configure in Vercel):
-    ```env
-    API_KEY=your_google_gemini_api_key_here
-    ```
-
-4.  **Run Locally**
-    ```bash
-    npm run dev
-    ```
-
-5.  **Build for Production**
-    ```bash
-    npm run build
-    ```
-
-## ⚠️ Veo Video Generation Note
-The "Divine Simulations" feature uses the Veo model, which requires a paid Google Cloud Project with billing enabled. The app automatically handles the API Key selection UI if the user attempts to generate video.
-
-## 🎨 "Golden State" Visuals
-The app enforces a "Golden State" aesthetic:
-*   Deep indigo/black gradients (`#0f1018`).
-*   Glassmorphism (`backdrop-filter: blur(12px)`).
-*   Serif typography (`Playfair Display`) for headings.
-*   Smooth, ethereal entrance animations.
+## ⚠️ Deployment Note
+The "Marketplace Blueprint" and "Divine Simulations" features require a paid Google Cloud Project. Ensure the billing documentation link is accessible in the API Key selection UI for enterprise users.
 
 Built for the Glory of God.
+**Soli Deo Gloria.**

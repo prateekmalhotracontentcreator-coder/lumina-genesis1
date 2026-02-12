@@ -1,9 +1,10 @@
+
 export const APP_CONFIG = {
   name: 'Lumina',
-  edition: 'Shekinah Realization: Refinement Layer (Phase 3.1)',
-  version: '0.6.1-STABILITY',
-  buildTag: 'zion-lattice-manna-provision',
-  codename: 'Zion Lattice',
+  edition: 'Shekinah Realization: Sovereign Dominion (Phase 5.0)',
+  version: '0.7.0-SOVEREIGN',
+  buildTag: 'zion-lattice-sovereign-active',
+  codename: 'Sovereign Lattice',
   fallbackRef: 'Manna Provision (DR-01)',
   env: 'production-ready',
   sanctuaryHealth: 100,
@@ -15,7 +16,7 @@ export const APP_CONFIG = {
     exodusGreen: '#22c55e'
   },
   marketing: {
-    tagline: 'The world\'s first AI-integrated spiritual sanctuary.',
+    tagline: 'The world\'s first AI-integrated spiritual sanctuary. Command your marketplace mandate.',
     supportEmail: 'glory@lumina.app',
     socialLinks: {
       twitter: 'https://twitter.com/lumina_app',

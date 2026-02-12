@@ -1,11 +1,12 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 import App from './App';
 
 interface Props {
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 interface State {
@@ -17,11 +18,13 @@ interface State {
  * ErrorBoundary: Protects the sacred space of the Lumina Sanctuary.
  * Aligned to Shekinah Protocol (v0.5.1) - Stability Edition.
  */
-// Fix: Use React.Component explicitly to ensure state and props are correctly inherited from the React base class
 class ErrorBoundary extends React.Component<Props, State> {
+  // Fix: Explicitly declare state and props to ensure they are recognized on the ErrorBoundary instance by the TypeScript compiler
+  public state: State;
+  public props: Props;
+
   constructor(props: Props) {
     super(props);
-    // Fix: Correctly initialize state in the constructor
     this.state = { 
       hasError: false, 
       error: null 
@@ -32,12 +35,12 @@ class ErrorBoundary extends React.Component<Props, State> {
     return { hasError: true, error };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("Shekinah Sanctuary technical fault detected:", error, errorInfo);
   }
 
   public render() {
-    // Fix: Accessing 'this.state' which is correctly inherited from React.Component
+    // Fix: Accessing state via inherited this.state which is now explicitly declared
     if (this.state.hasError) {
       const error = this.state.error;
       return (
@@ -64,7 +67,7 @@ class ErrorBoundary extends React.Component<Props, State> {
       );
     }
 
-    // Fix: Accessing 'this.props.children' which is correctly inherited from React.Component
+    // Fix: Accessing children from this.props which is now explicitly declared
     return this.props.children;
   }
 }
